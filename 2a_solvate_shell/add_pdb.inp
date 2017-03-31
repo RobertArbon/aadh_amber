@@ -1,0 +1,59 @@
+* Adds water and ions from VMD.  This is the 
+* same operation as adding water for water box
+* Some of the segments are changed due to deletions 
+* of water and addition of ions.  
+*
+
+prnlev 5
+
+set datadir ../common
+
+stream @datadir/toppar_water_ions_fixed.str
+read rtf card name @datadir/top_all36_prot.rtf append flex
+read rtf card name @datadir/aadh_topologies.rtf append flex
+read para card name @datadir/par_all36_prot_mod.prm append flex
+read para card name @datadir/aadh_parameters.prm append flex
+
+read psf card name @datadir/2agy.psf
+read coor card name @datadir/2agy.cor
+
+!
+! READ IN SEQUENCES 
+!
+set ctr 100
+set last 104
+set root w 
+
+label loop
+    read sequ pdb  name @root@ctr.pdb
+    gene @root@ctr setup first none last none nodihe noangl
+    incr ctr 
+if @ctr .le. @last then goto loop
+
+
+!
+! READ IN COORDINATES
+!
+
+set ctr 100
+label loop2
+     read coor pdb resid name @root@ctr.pdb sele segid @root@ctr end
+     incr ctr by 1
+if @ctr .le. @last then goto loop2
+
+
+ioformat extend
+
+write psf card name 2agy_ws.psf
+* AADH + water shell 
+*
+
+write coor card name 2agy_ws.cor
+* AADH + water shell 
+*
+
+write coor pdb name 2agy_ws.pdb
+* AADH + water shell 
+*
+
+stop

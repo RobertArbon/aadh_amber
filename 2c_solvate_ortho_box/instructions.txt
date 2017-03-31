@@ -1,0 +1,7 @@
+1 make_water_box.tcl - creates giant water box
+
+2 solvate.tcl - adds water box and creates waterbox
+
+3. cp solvate.p* ../common - moves output to common folder
+
+

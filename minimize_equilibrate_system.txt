@@ -1,0 +1,156 @@
+See for “Activation and Dynamic Network of the M2 Muscarinic Receptor” by Yinglong Miao, Sara E. Nichols, Paul M. Gasper, Vincent T. Metzger, and J. Andrew McCammon.
+for NAMD configuration script examples
+
+
+################################################################################################
+In Sethi et al. www.pnas.org/cgi/content/short/0810961106
+################################################################################################
+
+systems were minimized using 
+a 4-step protocol in which the water molecules were allowed to
+associate with the macromolecule before allowing the macro-
+molecule to move. These steps were: heavy atoms fixed (2,000
+steps), heavy atoms fixed excluding water and ions (3,000 steps),
+macromolecule backbone atoms fixed (5,000 steps), and all
+atoms free to move (20,000 steps). During the initial equilibra-
+tion, the system was gradually heated to 298 K (12, 14) during
+which different parts of the system were harmonically con-
+strained. The initial temperature was set to 100 K, and ions and
+heavy atoms in the protein and nucleic acid chains were har-
+monically constrained for the first 25,000 fs. Then the temper-
+ature was raised to 200 K, and backbone atoms were harmon-
+ically constrained for 25,000 fs. Force constants for all harmonic
+constraints were set to 1 kcal molϪ1Å2. Finally, the temperature
+was raised to 298 K, and all atoms were freed for the next 3.9 ns.
+
+
+
+################################################################################################
+dx.doi.org/10.1021/ct300377a | J. Chem. Theory Comput. 2012, 8, 2949−2961
+################################################################################################
+
+A four-step energy
+minimization was employed for both apo and holo structures to
+ensure maximal retention of experimental structural informa-
+tion. The four steps constrained heavy atoms for 1000 fs, heavy
+atoms excluding water for 1000 fs, backbone atoms excluding
+all other molecular groups for 2500 fs, and finally a constraint-
+free motion of all atoms for 5000 fs. Harmonic constraints were
+induced to allow minimal backbone motion to achieve water
+equilibration for five time frames of 25 000 fs each and different
+backbone constraint constants of 1.0, 0.75, 0.50, 0.25, and 0.0
+kcal mol−1 Å.
+
+
+
+################################################################################################
+In "NAMD tutorial for DNA-protein"
+################################################################################################
+2.4 Fixed atoms
+	To fix all atoms of protein and DNA you can use VMD. After loading your system: ionized.psf
+	and ionized.pdb, in the VMD TkCon window type:
+		set all [atomselect top all]
+		set prot [atomselect top protein]
+		set dna [atomselect top nucleic]
+	after that, you have to type the following:
+		$all set beta 0
+		$dna set beta 1
+		$prot set beta 1
+	And finally:
+		$all writepdb protein-dna-fixed.pdb
+	You may want to inspect the protein-dna-fixed.pdb using WordPad. In the column for B
+	factors, you should see value 1 instead of zero.
+
+2.5 Harmonic constraints (Positional restraints)
+	To add harmonic restraints on a protein on C alpha atoms and DNA you can use VMD program.
+	The procedure is very similar to the one for fixed atoms.
+		set all [atomselect top all]
+		set prot [atomselect top “protein and name CA”]
+		set dna [atomselect top nucleic]
+	after that, you have to type the following:
+		$all set beta 0
+		$dna set beta 500
+		$prot set beta 500
+	And finally:
+		$all writepdb proteinCA-DNA-const500.pdb
+	You may want to inspect the proteinCA-DNA-const500.pdb using WordPad. In the column for B-
+	factors, you should see value 500 instead of zero.
+
+3. Common scenario of simulations
+	In each directory (Stage1 Stage2 etc) there is configuration file, which should be filled out
+	with missing settings (option add me ). For verification purposes, each directory contains a subdirectory
+	example-output that is composed of a set of input and output files for given stage.
+	Each stage is continuation of a previous stage; therefore output coordinate file from one stage is input
+	coordinate for next stage. Because of time constrains of workshop we just fill configuration files and
+	run given stage with smaller number of steps. For next stage we will use output files from
+	example-output subdirectory.
+	Run each stage of your simulation by typing in a Terminal window:
+	namd2 configfilename.conf > configfilename.log
+	Run the following steps as an exercise in subdirectories STAGE1,STAGE2 etc, respectively
+	
+3.1 Stage 1 Minimization – Holding the solute fixed
+	Using “fixed atoms parameters” with constant pressure periodic boundary simulations, leads to
+	instabilities and strange artifacts. Due to these reasons, this it is no longer suggested method. Instead
+	we will use “positional restraints” on each of the DNA atoms and on C-alpha atoms of proteins. Only
+	the water and ions are minimized. We will run 1000steps, Temp=0K, using a force constant of 500 kcal
+	mol-1Å-2 .
+	
+3.2 Stage 2 - Minimization of the entire system
+	We will run 2,500 steps of minimization without the restraints this time. Note, choosing the number of
+	minimization steps to run is a bit of a "black of art". Running too few leads to instabilities when you
+	start running MD. Running too many will not cause any real harm since we will just get closer to the
+	nearest local minima. It will, however, waste cpu time. Since minimization is generally very quick with
+	respect to the molecular dynamics it is often a good idea to run more minimization steps than really
+	necessary. Here, 2,500 should be enough.
+	
+3.3 Stage 3 - Molecular Dynamics (heating) with restraints on the solute (NVT ensemble)
+	Now that we have successfully minimized our system, the next stage in our equilibration protocol is
+	allow our system to heat up from 0 K to 310 K increasing by 5 K every 2000 steps. In order to ensure
+	this happens without any wild fluctuations in our solute we will use a weak restraints, as we did in
+	stage 1 of minimization, on the solute (DNA and C-alpha atoms of protein). We will use the Langevin
+	thermostat to maintaining temperature.
+	
+3.4 Stage 4 - Running MD Equilibration on the whole system (NPT ensemble)
+	Now that we have successfully heated our system at constant volume with weak restraints on the DNA
+	and C-alpha of protein, the next stage is to switch constant pressure, so that the density of our water can
+	relax. At the same time we are at 310 K; therefore we can safely remove the restraints on our DNA and
+	protein. We will run this equilibration for 250 ps to give our system plenty of time to relax.
+	
+	
+	
+See: http://www.ks.uiuc.edu/Research/namd/tutorial/NCSA2002/pdf/09_assembly.pdf
+
+
+################################################################################################	
+In http://mmb.pcb.ub.es/MDWeb/help.php?id=workflows
+################################################################################################
+
+NAMD MD Setup. Structure Setup for Charmm Forcefield.
+	ForceField: Charmm-27.
+	Programs: psfgen, vmd (solvate and autoionize plugins) and namd2 from NAMD Package, protpKa and CMIP.
+	Generate Topology for NAMD.
+	Protonate Histidine residues according to protpKa program algorithm.
+	Add 20 water molecules at the energetically best favourable positions of the structure surface using CMIP program.
+	Energy minimize hydrogen atoms for 500 steps of conjugate gradients, while the rest of the structure is kept fixed.
+	Energy minimize the structure for 500 steps of conjugate gradients, restraining heavy atoms with a force constant of 50Kcal/mol to their initial positions.
+
+NAMD MD Setup with Solvation. Structure Setup + Solvation for Charmm Forcefield.
+	ForceField: Charmm-27.
+	Programs: psfgen, vmd (solvate and autoionize plugins) and namd2 from NAMD Package, protpKa and CMIP.
+	NAMD MD Setup.
+	Set a cubic box of TIP3P water molecules with a spacing distance of 15 Å.
+	Add Cl- and/or Na+ ions necessary to neutralize the system. Then, add the appropiate amount of ions up to a concentration of 50 mM.
+	Further energy minimize the structure for 500 steps of conjugate gradients, restraining heavy atoms with a force constant of 50Kcal/mol to their initial positions.
+
+NAMD Advanced Equilibration. System Equilibration.
+	Equilibration steps done in NPT ensemble with Periodic Boundary Conditions.
+	Particle Mesh Ewald (PME) for full-system periodic electrostatics.
+	Constant temperature dynamics via Langevin Dynamics.
+	Constant pressure dynamics via Nose-Hoover Langevin piston.
+	SHAKE is used to maintain all bonds involving hydrogen atoms at their equilibrium values.
+	Heat solvent to 300K. Solute atoms restrained (force constant of 10 Kcal/mol). Length 5ps.
+	Reduce force constant to 5 Kcal/mol. Length 1ps.
+	Reduce force constant to 2.5 Kcal/mol and limit restraints to backbone atoms. Length 1ps.
+	Reduce force constant to 1 Kcal/mol. Length 1ps.
+	Simulation without restraints. Length 1ps.
+

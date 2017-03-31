@@ -1,0 +1,115 @@
+* Based on 2agy_sol_ion.pdb created by KR, found in curie/kr8728/AADH/NEW_MD
+* VMD removed the solvated ions and water but kept the crystal water and protein
+* NEW PSF and PDB created using the CHARMM 36 forcefield
+*
+
+
+prnlev 7
+
+set charmmtop ../common
+set datadir ../common
+
+stream @charmmtop/toppar_water_ions_fixed.str
+read rtf card name @charmmtop/top_all36_prot.rtf append flex
+read rtf card name @datadir/aadh_topologies.rtf append flex
+read para card name @charmmtop/par_all36_prot_mod.prm append flex
+read para card name @datadir/aadh_parameters.prm append flex
+
+read sequ pdb firstresid 73 name B.pdb
+gene B setup first none last cter
+
+read sequ pdb firstresid 71 name D.pdb
+gene D setup first none last cter
+
+read sequ pdb firstresid 73 name A.pdb
+gene A setup first none last cter
+
+read sequ pdb firstresid 71 name H.pdb
+gene H setup first none last cter
+
+patch disu D 75 D 140  setup
+patch disu D 81 D 113 setup
+patch disu D 88 D 171 setup
+patch disu D 90 D 138 setup
+patch disu D 91 D 135 setup
+patch disu D 98 D 129 setup
+patch disu D 130 D 161 setup
+patch disu H 75 H 140 setup
+patch disu H 88 H 171 setup
+patch disu H 90 H 138 setup
+patch disu H 91 H 135 setup
+patch disu H 98 H 129 setup
+patch disu H 130 H 161 setup
+patch disu A 225 A 242 setup
+patch disu B 225 B 242 setup
+
+autogenerate off !In KR original (C22?) the autogen feature was off by default. 
+                    ! in Charmm 36 the autogen feature is on - which is good for 
+                    ! the disu but the patches below were especially crafted so they
+                    ! specify the angles and dihedrals.
+                    ! in particular the newly formed (TTW:C)-(TRP:C)-(TRP:N) was left out ( why? )
+bomlev -2 ! To avoid partial charge warning. 
+! For some reason the first two patches work in KR's original with the preservation of charge
+! but not in this case - perhaps she changed it.  Doesn't actually matter
+! as the change in charges introduced by the first two patches get's altered again 
+! in the last two charges.  
+patch ttq_trp D 109 D 160 setup
+patch ttq_trp H 109 H 160 setup
+patch trpm D 160 setup
+patch trpm H 160 setup
+
+bomlev 0
+!
+! READ IN WATER AND IONS
+!
+
+read sequ pdb name XW1.pdb
+gene XW1 setup first none last none nodihe noangl
+read sequ pdb name XW2.pdb
+gene XW2 setup first none last none nodihe noangl
+read sequ pdb name XW3.pdb
+gene XW3 setup first none last none nodihe noangl
+read sequ pdb name XW4.pdb
+gene XW4 setup first none last none nodihe noangl
+
+!
+! READ IN COORDINATES
+!
+
+read coor pdb resid name A.pdb sele segid A end
+read coor pdb resid name D.pdb sele segid D end
+read coor pdb resid name B.pdb sele segid B end
+read coor pdb resid name H.pdb sele segid H end
+read coor pdb resid name XW1.pdb sele segid XW1 end
+read coor pdb resid name XW2.pdb sele segid XW2 end
+read coor pdb resid name XW3.pdb sele segid XW3 end
+read coor pdb resid name XW4.pdb sele segid XW4 end
+
+!
+! RENAME
+!  
+join XW1 XW2 renumber
+join XW1 XW3 renumber
+join XW1 XW4 renumber
+rename segid XWAT sele segid XW1 end
+
+rename segid AL2 sele segid A end
+rename segid AL1 sele segid B end
+
+rename segid BT1 sele segid D end
+rename segid BT2 sele segid H end
+
+!
+! REORIENT
+!
+coordinate orient
+
+!
+! WRITE OUT THE PROTEIN AND WATER
+!
+
+write psf card name 2agy.psf
+write coor pdb name 2agy.pdb
+write coor card name 2agy.cor
+
+stop

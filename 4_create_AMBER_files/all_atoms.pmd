@@ -1,0 +1,8 @@
+chamber -top ../common/top_all36_prot.rtf -top ../common/aadh_topologies.rtf \
+    -param ../common/par_all36_prot_mod.prm -param ../common/aadh_parameters.prm \
+    -str ../common/toppar_water_ions_fixed.str -psf ../common/2agy_solvated.psf \
+    -crd ../common/2agy_solvated.cor -box bounding nosettle
+
+setMolecules
+outparm 2agy_solv.prmtop
+writeCoordinates 2agy_solv.inpcrd

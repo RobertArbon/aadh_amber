@@ -1,0 +1,90 @@
+* Aligns enzyme ready for solvating in a box.  
+*
+
+prnlev 5
+
+ioformat extend
+set datadir ../common
+set molname 2agy_c36_state0_ws
+stream @datadir/toppar_water_ions_fixed.str
+read rtf card name @datadir/top_all36_prot.rtf append flex
+read rtf card name @datadir/aadh_topologies.rtf append flex
+read para card name @datadir/par_all36_prot_mod.prm append flex
+read para card name @datadir/aadh_parameters.prm append flex
+
+read psf card name ../common/@molname.psf
+read coor card name ../common/@molname.cor
+!
+! SOME TIDY UP
+join XW1 XW2 renumber
+join XW1 XW3 renumber
+join XW1 XW4 renumber
+
+rename segid XWAT sele segid XW1 end
+
+!set ctr 2
+!label loop
+!  join WAT1 WAT@ctr renumber
+!  incr ctr 1
+!if @ctr .lt. 3.5 then goto loop
+!
+!rename segid BWAT sele segid WT4 end
+
+rename segid AL2 sele segid A end
+rename segid AL1 sele segid B end
+
+rename segid BT1 sele segid D end
+rename segid BT2 sele segid H end
+
+join AL1 renumber
+join AL2 renumber
+join BT1 renumber
+join BT2 renumber
+
+define prot sele segid AL* .or. segid BT* end
+
+! REORIENT PROTEIN
+coordinate orient
+
+! CALCULATE SUITABLE CUTOFF SIZE
+set padding 12
+
+coordinate statistics select prot end
+
+calc xmin = int(?xmin - @padding) -1
+calc xmax = int(?xmax + @padding) +1
+calc ymin = int(?ymin - @padding) -1
+calc ymax = int(?ymax + @padding) +1
+calc zmin = int(?zmin - @padding) -1
+calc zmax = int(?zmax + @padding) +1
+
+
+open write unit 1 card name @molname_min_boxdims.str
+write title unit 1
+* set xmin @xmin 
+* set xmax @xmax 
+* set ymin @ymin 
+* set ymax @ymax 
+* set zmin @zmin 
+* set zmax @zmax 
+*
+
+close unit 1
+
+!WRITE OUT STRUCTURE
+write psf card name @molname_realigned.psf
+* Reoriented along x axis
+*
+
+write coord card name @molname_realigned.cor
+* Reoriented along x axis
+*
+
+write coord pdb name @molname_realigned.pdb
+* Reoriented along x axis
+* 
+
+stop
+
+
+
