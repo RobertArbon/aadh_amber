@@ -1,0 +1,3 @@
+# Log started on 04/02/2017 [mm/dd/yyyy] at 11:09:18
+load('2agy_solv_min.prmtop')
+exit

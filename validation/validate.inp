@@ -1,0 +1,89 @@
+* Minimisation
+*
+
+prnlev 5
+set datadir ../common
+stream @datadir/toppar_water_ions_fixed.str
+read rtf card name @datadir/top_all36_prot.rtf append flex
+read rtf card name @datadir/aadh_topologies.rtf append flex
+read para card name @datadir/par_all36_prot_mod.prm append flex
+read para card name @datadir/aadh_parameters.prm append flex
+
+read psf card name ../common/2agy_solvated.psf
+read coord card name 2agy_solvated_min-step-2.cor
+
+
+!
+! Some selections
+!
+define protein sele segid AL* .or. segid BT* end
+define ions sele segid ion end
+define water sele (.not. protein) .and. (.not. ions) end
+
+
+!
+! Setup crystal
+!
+
+set cutim 14
+set xdim 129.928 
+set ydim 107.145
+set zdim 89.842 
+calc xcen = @xdim/2.0
+calc ycen = @ydim/2.0
+calc zcen = @zdim/2.0
+
+
+coor statistics
+
+
+crystal defi ortho @xdim @ydim @zdim 90.0 90.0 90.0
+crystal build cutoff @cutim noper 0
+image byseg xcen @xcen ycen @ycen zcen @zcen sele protein end 
+image byres xcen @xcen ycen @ycen zcen @zcen sele water .or. ions end 
+
+
+
+!
+! Define selections
+!
+define heavy_all sele all .and. .not. type H* end
+define heavy_prot sele protein .and. .not. type H* end 
+
+define protein sele segid AL* .or. segid BT* end
+define light_prot sele protein .and. type H* end 
+define backbone_prot sele type n .or. type ca .or. type c .or. type o end
+define residues_prot sele protein .and. .not. backbone_prot end
+define water sele segid *WAT end
+define ions sele segid ion end
+
+!
+! Setup non-bonded forces
+!
+!     Box X =  129.928   Box Y =  107.145   Box Z =   89.842
+!     Alpha =   90.000   Beta  =   90.000   Gamma =   90.000
+!     NFFT1 =  144       NFFT2 =  108       NFFT3 =   90
+!     Cutoff=   12.000   Tol   =0.100E-04
+!     Ewald Coefficient =  0.22664
+!     Interpolation order =    4
+
+set ftx 144 
+set fty 108
+set ftz 90 
+NBONDED inbfrq -1 imgfrq -1 nbxmod 5 -                                              ! C36 DEFAULTS
+        atom cdiel fshift -                                                         ! use atom based electrostatics, C36 DEFAULTS
+        vatom vdistance vfswitch -                                                  ! C36 DEFAULTS
+        elec ewald pmew fftx @ftx ffty @fty fftz @ftz kappa .22664 spline order 4 -    ! PME SUMMATION
+        cutnb 14.0 ctofnb 12.0 ctonnb 10.0 -                                        ! C36 DEFAULTS
+        cutim @cutim -                                                                ! must be same as cutnb
+        eps 1.0 e14fac 1.0 wmin 1.5                                                 ! C36 DEFAULTS
+
+
+energy
+
+open unit 20 form write name charmm_gold_c42a1
+frcdump unit 20
+close unit 20
+
+stop
+

@@ -1,0 +1,10 @@
+Validation script
+&cntrl
+ntf=1,
+ntb=1,
+cut=12.00,
+fswitch=10.0,
+/
+&debugf
+do_charmm_dump_gold = 1,
+/

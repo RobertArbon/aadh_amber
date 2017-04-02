@@ -1,5 +1,5 @@
 #Create a different PDB for each chain of the protein:
-set molname ionized 
+set molname solvate 
 mol new ${molname}.psf
 mol addfile ${molname}.pdb
 set ctr 1

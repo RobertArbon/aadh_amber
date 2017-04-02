@@ -7,4 +7,4 @@ filename=2agy
 cp ../common/$filename.psf .
 cp ../common/$filename.pdb .
 output=water_shell
-solvate -t 7.2 -r 100.0 -n 10 -s -w $filename $output 
+solvate -t 5 -r 100000.0 -n 15 -s -w $filename $output 

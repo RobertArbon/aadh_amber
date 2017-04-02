@@ -1,0 +1,155 @@
+* Minimisation
+*
+
+prnlev 5
+set molname 2agy_solvated
+set datadir ../common
+stream @datadir/toppar_water_ions_fixed.str
+read rtf card name @datadir/top_all36_prot.rtf append flex
+read rtf card name @datadir/aadh_topologies.rtf append flex
+read para card name @datadir/par_all36_prot_mod.prm append flex
+read para card name @datadir/aadh_parameters.prm append flex
+
+read psf card name ../common/@molname.psf
+read coord card name ../common/@molname.cor
+
+coor statistics
+
+calc xdim =  abs ( ?XMAX - ?XMIN ) 
+calc ydim =  abs ( ?YMAX - ?YMIN ) 
+calc zdim =  abs ( ?ZMAX - ?ZMIN ) 
+calc xcen = ?XMIN + @xdim/2.0
+calc ycen = ?yMIN + @ydim/2.0
+calc zcen = ?zMIN + @zdim/2.0
+
+!
+! Some selections
+!
+define protein sele segid AL* .or. segid BT* end
+define ions sele segid ion end
+define water sele (.not. protein) .and. (.not. ions) end
+
+
+!
+! Setup crystal
+!
+
+set cutim 14
+
+crystal defi ortho @xdim @ydim @zdim 90.0 90.0 90.0
+crystal build cutoff @cutim noper 0
+image byseg xcen @xcen ycen @ycen zcen @zcen sele protein end 
+image byres xcen @xcen ycen @ycen zcen @zcen sele water .or. ions end 
+
+
+
+!
+! Define selections
+!
+define heavy_all sele all .and. .not. type H* end
+define heavy_prot sele protein .and. .not. type H* end 
+
+define protein sele segid AL* .or. segid BT* end
+define light_prot sele protein .and. type H* end 
+define backbone_prot sele type n .or. type ca .or. type c .or. type o end
+define residues_prot sele protein .and. .not. backbone_prot end
+define water sele segid *WAT end
+define ions sele segid ion end
+
+!
+! Setup non-bonded forces
+!
+!     Box X =  125.351   Box Y =  103.866   Box Z =   95.360
+!     Alpha =   90.000   Beta  =   90.000   Gamma =   90.000
+!     NFFT1 =  128       NFFT2 =  108       NFFT3 =   96
+!     Cutoff=    8.000   Tol   =0.100E-04
+!     Ewald Coefficient =  0.34864
+!     Interpolation order =    4
+
+set ftx 128 
+set fty 108
+set ftz 96 
+NBONDED inbfrq -1 imgfrq -1 nbxmod 5 -                                              ! C36 DEFAULTS
+        atom cdiel fshift -                                                         ! use atom based electrostatics, C36 DEFAULTS
+        vatom vdistance vfswitch -                                                  ! C36 DEFAULTS
+        elec ewald pmew fftx @ftx ffty @fty fftz @ftz kappa .34 spline order 4 -    ! PME SUMMATION
+        cutnb 14.0 ctofnb 12.0 ctonnb 10.0 -                                        ! C36 DEFAULTS
+        cutim @cutim -                                                                ! must be same as cutnb
+        eps 1.0 e14fac 1.0 wmin 1.5                                                 ! C36 DEFAULTS
+
+faster on
+
+!
+! Minimization 
+!
+ 
+!
+! Step 1: Minimize H-atoms
+!         Fix heavy atoms 
+!
+cons rmsd force 500 mass comp sele heavy_all end
+ 
+mini sd nstep 100
+mini abnr nstep 3000 nprint 100 tolg 1
+
+cons rmsd clear
+
+write coor card name 2agy_solvated_min-step-1.cor
+* 2agy, minimized, neutralized after step 1
+*
+
+!
+! Step 2: Minimize all hydrogens and waters
+!         Fix all heavy protein atoms 
+!
+cons rmsd force 500 mass comp sele heavy_prot end 
+
+mini sd nstep 100
+mini abnr nstep 3000 nprint 100 tolg 0.1
+
+cons rmsd clear
+
+write coor card name 2agy_solvated_min-step-2.cor
+* 2agy, minimized, neutralized after step 2
+*
+
+open unit 20 form write name charmm_gold_c42a1
+frcdump unit 20
+close unit 20
+
+stop
+
+!
+! Step 3: Minimize residues + hydrogens + waters
+! 
+cons rmsd force 5 mass comp sele  backbone_prot end 
+
+mini sd nstep 100
+mini abnr nstep 3000 nprint 100 tolg 0.01
+
+cons rmsd clear
+coor rms comp sele heavy_prot end
+
+write coor card name 2agy_final_min-step-3.cor
+* 2agy, minimized, neutralized after step 3
+*
+
+!
+! Step 4: Minimize everything  
+! 
+mini sd nstep 100
+mini abnr nstep 5000 nprint 100 tolg 0.01
+
+coor rms comp sele heavy_prot end
+
+!
+! Write out coordinates
+!
+write coor card name 2agy_final_min.cor
+* 2agy, minimized
+
+write coor pdb name 2agy_final_min.pdb
+* 2agy, minimized
+*
+
+stop
