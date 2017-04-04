@@ -1,9 +1,9 @@
 chamber -top ../common/top_all36_prot.rtf -top ../common/aadh_topologies.rtf \
     -param ../common/par_all36_prot_mod.prm -param ../common/aadh_parameters.prm \
     -str ../common/toppar_water_ions_fixed.str -psf ../common/2agy_solvated.psf \
-    -crd ../common/2agy_solvated_min-step-2.cor -box bounding nosettle
+    -crd ../common/2agy_final_min.cor -box bounding 
 
-!setMolecules
-outparm 2agy_solv_min.prmtop
-writeCoordinates 2agy_solv_min.inpcrd
-writeCoordinates 2agy_solv_min.pdb
+setMolecules
+outparm 2agy_final_min.prmtop
+writeCoordinates 2agy_final_min.inpcrd
+writeCoordinates 2agy_final_min.pdb

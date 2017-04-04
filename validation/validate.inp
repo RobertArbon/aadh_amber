@@ -10,7 +10,7 @@ read para card name @datadir/par_all36_prot_mod.prm append flex
 read para card name @datadir/aadh_parameters.prm append flex
 
 read psf card name ../common/2agy_solvated.psf
-read coord card name 2agy_solvated_min-step-2.cor
+read coord card name ../common/2agy_final_min.cor
 
 
 !
@@ -26,12 +26,13 @@ define water sele (.not. protein) .and. (.not. ions) end
 !
 
 set cutim 14
-set xdim 129.928 
-set ydim 107.145
-set zdim 89.842 
-calc xcen = @xdim/2.0
-calc ycen = @ydim/2.0
-calc zcen = @zdim/2.0
+set xdim 126.667
+set ydim 105.473
+set zdim 90.903 
+
+calc xcen = 0 
+calc ycen = 0 
+calc zcen = 0 
 
 
 coor statistics
@@ -60,14 +61,14 @@ define ions sele segid ion end
 !
 ! Setup non-bonded forces
 !
-!     Box X =  129.928   Box Y =  107.145   Box Z =   89.842
+!     Box X =  126.667   Box Y =  105.473   Box Z =   90.903
 !     Alpha =   90.000   Beta  =   90.000   Gamma =   90.000
-!     NFFT1 =  144       NFFT2 =  108       NFFT3 =   90
+!     NFFT1 =  128       NFFT2 =  108       NFFT3 =   90
 !     Cutoff=   12.000   Tol   =0.100E-04
 !     Ewald Coefficient =  0.22664
 !     Interpolation order =    4
 
-set ftx 144 
+set ftx 128
 set fty 108
 set ftz 90 
 NBONDED inbfrq -1 imgfrq -1 nbxmod 5 -                                              ! C36 DEFAULTS

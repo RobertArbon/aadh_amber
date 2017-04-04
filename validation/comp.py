@@ -37,22 +37,26 @@ df2, energy2 = load_data('charmm_gold')
 
 df = pd.merge(left=df1, right=df2, on=['Index'])
 df['diff'] = np.abs((df['value_x'] - df['value_y']))
-df = add_beta(df)
 df.sort_values(by='diff', inplace=True, ascending=False)
-print(df.head(30))
+print('Top 10 atomic force differences')
+print(df[['Index', 'diff']].head(10))
 
-by_res = df.groupby(['segmentID', 'resSeq']).sum()
+#by_res = df.groupby(['segmentID', 'resSeq']).sum()
+#by_res.sort_values(by='diff', ascending=False, inplace=True)
+#print(by_res.head(30))
 
-by_res.sort_values(by='diff', ascending=False, inplace=True)
-print(by_res.head(30))
+rmsd = np.sqrt(np.mean(df['diff']**2))
+print('Energy difference {:8.5f}%'.format(100*(energy1-energy2)/energy1))
+print('Force RMSD {:8.5f}'.format(rmsd))
 
-# rmsd = np.sqrt(np.mean(df['diff']**2))
-# print('Energy difference {:8.5f}%'.format(100*(energy1-energy2)/energy1))
-# print('Force RMSD {:8.5f}'.format(rmsd))
-#
-# plt.scatter(df['value_x'], df['value_y'])
-# plt.savefig('charmm_vs_amber.png')
-# plt.clf()
+plt.scatter(df['value_x'], df['value_y'])
+plt.plot(np.arange(df['value_x'].max()), np.arange(df['value_x'].max()))
+plt.xlabel('CHARMM force kcal/Ang/mol')
+plt.ylabel('AMBER force kcal/Ang/mol')
+
+plt.savefig('charmm_vs_amber.png')
+
+plt.clf()
 
 # fig, ax = plt.subplots(nrows=2, sharex=True, sharey=True)
 # ax[0].plot(df['value_x'], label='CHARMM')

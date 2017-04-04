@@ -1,0 +1,917 @@
+1
+                 Chemistry at HARvard Macromolecular Mechanics
+           (CHARMM) - Developmental Version 41a2   February 15, 2016            
+                             Git commit ID 9aa0513                              
+       Copyright(c) 1984-2014  President and Fellows of Harvard College
+                              All Rights Reserved
+     Current operating system: Linux-4.4.0-71-generic(x86_64)@robert-P775DM     
+                 Created on  4/3/17 at 19:29:22 by user: robert      
+
+            Maximum number of ATOMS:    360720, and RESidues:      120240
+ RDTITL> * MINIMISATION
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>    prnlev 5
+  
+ CHARMM>    set molname 2agy_ws_min-step-2
+ Parameter: MOLNAME <- "2AGY_WS_MIN-STEP-2"
+  
+ CHARMM>    set datadir ../common
+ Parameter: DATADIR <- "../COMMON"
+  
+ CHARMM>    stream @datadir/toppar_water_ions_fixed.str
+ Parameter: DATADIR -> "../COMMON"
+ VOPEN> Attempting to open::../common/toppar_water_ions_fixed.str::
+ OPNLGU> Unit 99 opened for READONLY access to ../common/toppar_water_ions_fixed.str
+
+                    INPUT STREAM SWITCHING TO UNIT    99
+ RDTITL> * TOPLOGY AND PARAMETER INFORMATION FOR WATER AND IONS.
+ RDTITL> *
+ Parameter: IN1 <- "" <empty>
+  
+ CHARMM>     
+  
+ CHARMM>    !Testcase
+ CHARMM>    !test_water_ions.inp
+ CHARMM>     
+  
+ CHARMM>    ! IMPORTANT NOTE: this file contains NBFixes between carboxylates and sodium,
+ CHARMM>    ! which will only apply if the main files containing carboxylate atom types
+ CHARMM>    ! have been read in first!
+ CHARMM>     
+  
+ CHARMM>    !references
+ CHARMM>    !
+ CHARMM>    !TIP3P water model
+ CHARMM>    !
+ CHARMM>    !W.L. Jorgensen; J.Chandrasekhar; J.D. Madura; R.W. Impey;
+ CHARMM>    !M.L. Klein; "Comparison of simple potential functions for
+ CHARMM>    !simulating liquid water", J. Chem. Phys. 79 926-935 (1983).
+ CHARMM>    !
+ CHARMM>    !IONS
+ CHARMM>    !
+ CHARMM>    !Ions from Roux and coworkers
+ CHARMM>    !
+ CHARMM>    !Beglov, D. and Roux, B., Finite Representation of an Infinite
+ CHARMM>    !Bulk System: Solvent Boundary Potential for Computer Simulations,
+ CHARMM>    !Journal of Chemical Physics, 1994, 100: 9050-9063
+ CHARMM>    !
+ CHARMM>    !ZINC
+ CHARMM>    !
+ CHARMM>    !Stote, R.H. and Karplus, M. Zinc Binding in Proteins and
+ CHARMM>    !Solution: A Simple but Accurate Nonbonded Representation, PROTEINS:
+ CHARMM>    !Structure, Function, and Genetics 23:12-31 (1995)
+ CHARMM>     
+  
+ CHARMM>    !test "append" to determine if previous toppar files have been read and
+ CHARMM>    !add append to "read rtf card" if true
+ CHARMM>    set nat ?NATC
+ RDCMND: can not substitute energy "?NATC"
+ Parameter: NAT <- "?NATC"
+  
+ CHARMM>    set app
+ Parameter: APP <- "" <empty>
+  
+ CHARMM>    !We're exploiting what is arguably a bug in the parser. On the left hand side,
+ CHARMM>    !the quotes have priority, so NAT is correctly substituted. On the right hand
+ CHARMM>    !side, the ? has priority and NATC" (sic) is not a valid substitution...
+ CHARMM>    if "@NAT" ne "?NATC" if @nat ne 0 set app append
+ Parameter: NAT -> "?NATC"
+ Parameter: NAT -> "?NATC"
+ RDCMND: can not substitute energy "?NATC""
+ Comparing ""?NATC"" and ""?NATC"".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    read rtf card  !REA 26/07/2013 - deleted @app - always stream this first and everything else must be appended)
+ MAINIO> Residue topology file being read from unit  99.
+ RDTITL> * TOPOLOGY FOR WATER AND IONS
+ RDTITL> *
+  
+ CHARMM>     
+  
+ CHARMM>    read para card flex  !REA - deleted @app
+
+          PARAMETER FILE BEING READ FROM UNIT 99
+ RDTITL> * PARAMETERS FOR WATER AND IONS
+ RDTITL> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+  
+ CHARMM>     
+  
+ CHARMM>    ! The following section contains NBFixes for sodium interacting with
+ CHARMM>    ! carboxylate oxygens of various CHARMM force fields. It will generate
+ CHARMM>    ! level -1 warnings whenever any of these force fields have not been
+ CHARMM>    ! read prior to the current stream file. Since we don't want to force
+ CHARMM>    ! the user to always read all the force fields, we're suppressing the
+ CHARMM>    ! warnings. The only side effect is that you will have "most severe
+ CHARMM>    ! warning was at level 0" at the end of your output. Also note that
+ CHARMM>    ! the user is responsible for reading the current file last if they
+ CHARMM>    ! want the NBFixes to apply. A more elegant solution would require new
+ CHARMM>    ! features to be added to CHARMM.
+ CHARMM>    ! parallel fix, to avoid duplicated messages in the log
+ CHARMM>    set para
+ Parameter: PARA <- "" <empty>
+  
+ CHARMM>    if ?NUMNODE gt 1 set para node 0
+ RDCMND substituted energy or value "?NUMNODE" to "1"
+ Comparing "1" and "1".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>     
+  
+ CHARMM>    set wrn ?WRNLEV
+ RDCMND substituted energy or value "?WRNLEV" to "5"
+ Parameter: WRN <- "5"
+  
+ CHARMM>    ! Some versions of CHARMM don't seem to initialize wrnlev...
+ CHARMM>    if "@WRN" eq "?WRNLEV" set wrn 5
+ Parameter: WRN -> "5"
+ RDCMND: can not substitute energy "?WRNLEV""
+ Comparing ""5"" and ""?WRNLEV"".
+ IF test evaluated as false.  Skipping command
+  
+ CHARMM>    set bom ?bomlev
+ RDCMND substituted energy or value "?BOMLEV" to "0"
+ Parameter: BOM <- "0"
+  
+ CHARMM>    WRNLEV -1 @PARA
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    BOMLEV -1 @PARA
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    read para card flex append
+
+          PARAMETER FILE BEING READ FROM UNIT 99
+ RDTITL> * NBFIX BETWEEN CARBOXYLATE AND SODIUM
+ RDTITL> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+  
+ CHARMM>    BOMLEV @bom @PARA
+ Parameter: BOM -> "0"
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>    WRNLEV @wrn @PARA
+ Parameter: WRN -> "5"
+ Parameter: PARA -> "" <empty>
+  
+ CHARMM>     
+  
+ CHARMM>    return
+ VCLOSE: Closing unit   99 with status "KEEP"
+
+                    RETURNING TO INPUT STREAM     5
+  
+ CHARMM>    read rtf card name @datadir/top_all36_prot.rtf append flex
+ Parameter: DATADIR -> "../COMMON"
+ VOPEN> Attempting to open::../common/top_all36_prot.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> *>>>>>>>>CHARMM36 ALL-HYDROGEN TOPOLOGY FILE FOR PROTEINS <<<<<<
+ TITLE> *>>>>> INCLUDES PHI, PSI CROSS TERM MAP (CMAP) CORRECTION <<<<<<<
+ TITLE> *>>>>>>>>>>>>>>>>>>>>>>>>>> MAY 2011 <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ TITLE> * ALL COMMENTS TO THE CHARMM WEB SITE: WWW.CHARMM.ORG
+ TITLE> *             PARAMETER SET DISCUSSION FORUM
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read rtf card name @datadir/aadh_topologies.rtf append flex
+ Parameter: DATADIR -> "../COMMON"
+ VOPEN> Attempting to open::../common/aadh_topologies.rtf::
+ MAINIO> Residue topology file being read from unit  90.
+ TITLE> * RESIDUES AND PATCHES FOR CREATING AADH REACTANT AND PRODUCTS
+ TITLE> * ATOM DEFINITIONS IS TAKEN FROM TOP_ALL36_PROT.RTF
+ TITLE> * PREAMLE IS TAKEN FROM TOP_TTW.INP
+ TITLE> * >>>>>
+ TITLE> * RESI TTW - /DATA/KR/TOP_TTW.INP
+ TITLE> * RESI TTW2 - /DATA/KR/TOP_TTW.INP - I DON'T THINK THIS IS USED SO THIS WON'T BE ADJUSTED.
+ TITLE> * PRES TRPM - /DATA/NEW_MD/TRPM.RTF
+ TITLE> * PRES TTWP - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES ASP1/2 - /DATA/KR/TTW_PROD.RTF
+ TITLE> * PRES TTQ_TRP - /DATA/NEW_MD/TTW_TOP.INP
+ TITLE> * THE ORIGINAL PATCHES AND RESIDUES WERE SPECIFIED IN THE CHARM22 FF
+ TITLE> * 23/07/2016 - THE PRODUCT PATCHES WILL HAVE TO CHANGE (TO GET RID OF DELE STATEMENT)
+ TITLE> *               AND TO PRESERVE THE ATOMS LABELLING CHANGES.
+ TITLE> *
+ WARNING from DECODI -- Zero length string being converted to 0
+ RTFRDR> WARNING: Version number is NOT specified.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name @datadir/par_all36_prot_mod.prm append flex
+ Parameter: DATADIR -> "../COMMON"
+ VOPEN> Attempting to open::../common/par_all36_prot_mod.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> *>>>> CHARMM36 ALL-HYDROGEN PARAMETER FILE FOR PROTEINS <<<<<<<<<<
+ TITLE> *>>>>> INCLUDES PHI, PSI CROSS TERM MAP (CMAP) CORRECTION <<<<<<<<
+ TITLE> *>>>>>>>>>>>>>>>>>>>>>>>>>> JAN. 2016 <<<<<<<<<<<<<<<<<<<<<<<<<<<<
+ TITLE> * ALL COMMENTS TO THE CHARMM WEB SITE: WWW.CHARMM.ORG
+ TITLE> *             PARAMETER SET DISCUSSION FORUM
+ TITLE> *
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read para card name @datadir/aadh_parameters.prm append flex
+ Parameter: DATADIR -> "../COMMON"
+ VOPEN> Attempting to open::../common/aadh_parameters.prm::
+
+          PARAMETER FILE BEING READ FROM UNIT 90
+ TITLE> * PARAMETERS SPECIFIC TO AADH.  TO BE USED IN CONJUNCTION WITH AADH_TOPOLOGIES.RTF
+ TITLE> * THESE WERE TAKEN FROM EACH SECTION IN /DATA/KR/PAR_TTW.INP
+ TITLE> *   AND ADDITIONALLY FROM /DATA/NEW_MD/PAR_TTW.INP
+ TITLE> * THERE'S NO ANGLE PARAMETERS FOR HA ONLY HA1/2/3 SO CHANGE THE HAS IN THE AADH_TOPOLOGIES
+ TITLE> * ADDED NBFIX
+ TITLE>  
+ PARMIO> NONBOND, HBOND lists and IMAGE atoms cleared.
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    read psf card name 2agy_ws.psf
+ VOPEN> Attempting to open::2agy_ws.psf::
+ MAINIO> Protein structure file being read from unit  90.
+ PSFRD2> Reading PSF in the expanded format.
+ TITLE>  * AADH + WATER SHELL
+ TITLE>  *  DATE:     4/ 1/17     21: 1:26      CREATED BY USER: robert
+ TITLE>  *
+ PSFSUM> PSF modified: NONBOND lists and IMAGE atoms cleared.
+ PSFSUM> Summary of the structure file counters :
+         Number of segments      =       10   Number of residues   =    13388
+         Number of atoms         =    51746   Number of groups     =    16738
+         Number of bonds         =    51945   Number of angles     =    38778
+         Number of dihedrals     =    38677   Number of impropers  =     2624
+         Number of cross-terms   =      936
+         Number of HB acceptors  =    13880   Number of HB donors  =    26530
+         Number of NB exclusions =        0   Total charge =  -12.00000
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>    read coord card name @molname.cor
+ Parameter: MOLNAME -> "2AGY_WS_MIN-STEP-2"
+ VOPEN> Attempting to open::2agy_ws_min-step-2.cor::
+          SPATIAL COORDINATES BEING READ FROM UNIT 90
+ TITLE> * 2AGY, MINIMIZED, NEUTRALIZED AFTER STEP 2
+ TITLE> *  DATE:     4/ 3/17     19:19:57      CREATED BY USER: ROBERT
+ TITLE> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    coor statistics
+ STATISTICS FOR     51746 SELECTED ATOMS:
+    XMIN =  -57.998176 XMAX =   57.871825 XAVE =   -0.482400
+    YMIN =  -46.146159 YMAX =   47.549309 YAVE =    0.536241
+    ZMIN =  -44.394905 ZMAX =   46.461358 ZAVE =    1.818607
+    WMIN =    0.000000 WMAX =    0.000000 WAVE =    0.000000
+  
+ CHARMM>     
+  
+ CHARMM>    calc xdim =  abs ( ?XMAX - ?XMIN )
+ RDCMND substituted energy or value "?XMAX" to "57.8718246"
+ RDCMND substituted energy or value "?XMIN" to "-57.9981765"
+Evaluating: ABS(57.8718246--57.9981765)
+ Parameter: XDIM <- "115.870001"
+  
+ CHARMM>    calc ydim =  abs ( ?YMAX - ?YMIN )
+ RDCMND substituted energy or value "?YMAX" to "47.5493095"
+ RDCMND substituted energy or value "?YMIN" to "-46.1461585"
+Evaluating: ABS(47.5493095--46.1461585)
+ Parameter: YDIM <- "93.695468"
+  
+ CHARMM>    calc zdim =  abs ( ?ZMAX - ?ZMIN )
+ RDCMND substituted energy or value "?ZMAX" to "46.4613583"
+ RDCMND substituted energy or value "?ZMIN" to "-44.3949045"
+Evaluating: ABS(46.4613583--44.3949045)
+ Parameter: ZDIM <- "90.8562628"
+  
+ CHARMM>    calc xcen = ?XMIN + @xdim/2.0
+ Parameter: XDIM -> "115.870001"
+ RDCMND substituted energy or value "?XMIN" to "-57.9981765"
+Evaluating: -57.9981765+115.870001/2.0
+ Parameter: XCEN <- "-6.3176E-02"
+  
+ CHARMM>    calc ycen = ?yMIN + @ydim/2.0
+ Parameter: YDIM -> "93.695468"
+ RDCMND substituted energy or value "?YMIN" to "-46.1461585"
+Evaluating: -46.1461585+93.695468/2.0
+ Parameter: YCEN <- "0.7015755"
+  
+ CHARMM>    calc zcen = ?zMIN + @zdim/2.0
+ Parameter: ZDIM -> "90.8562628"
+ RDCMND substituted energy or value "?ZMIN" to "-44.3949045"
+Evaluating: -44.3949045+90.8562628/2.0
+ Parameter: ZCEN <- "1.0332269"
+  
+ CHARMM>     
+  
+ CHARMM>     
+  
+ CHARMM>     
+  
+ CHARMM>    !
+ CHARMM>    ! Define selections
+ CHARMM>    !
+ CHARMM>    define protein sele segid AL* .or. segid BT* end
+ SELRPN>  14420 atoms have been selected out of  51746
+  
+ CHARMM>    define heavy_all sele all .and. .not. type H* end
+ SELRPN>  19810 atoms have been selected out of  51746
+  
+ CHARMM>    define heavy_prot sele protein .and. .not. type H* end
+ SELRPN>   7368 atoms have been selected out of  51746
+  
+ CHARMM>    define backbone_prot sele type n .or. type ca .or. type c .or. type o end
+ SELRPN>   3780 atoms have been selected out of  51746
+  
+ CHARMM>     
+  
+ CHARMM>    !
+ CHARMM>    ! Minimization
+ CHARMM>    !
+ CHARMM>     
+  
+ CHARMM>    !
+ CHARMM>    ! Step 1: Minimize H-atoms
+ CHARMM>    !         Fix heavy atoms
+ CHARMM>    !
+ CHARMM>    cons rmsd force 500 mass comp sele heavy_all end
+ RMSD initialized, maxn =   10
+ mass weighting will be used 
+ SELRPN>  19810 atoms have been selected out of  51746
+ reference coordinates set to comparison coordinates.
+  
+ CHARMM>     
+  
+ CHARMM>    mini sd nstep 100
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  NOEWald 
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ There are        0 atom  pairs and        0 atom  exclusions.
+ There are        0 group pairs and        0 group exclusions.
+ <MAKINB> with mode   5 found  78285 exclusions and  37937 interactions(1-4)
+ <MAKGRP> found  12527 group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 14869299 ATOM PAIRS AND        0 GROUP PAIRS
+ == PRIMARY == SPACE FOR 22303968 ATOM PAIRS AND        0 GROUP PAIRS
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29048954 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1709173 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+
+ STEEPD> An energy minimization has been requested.
+
+ NSTEP  =          100   NPRINT =           10
+ STEP   =    0.0200000   TOLFUN =    0.0000000
+ TOLGRD =    0.0000000   TOLSTP =    0.0000000
+
+MINI MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+MINI INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+MINI CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+MINI EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+MINI CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>        0 509552.92605      0.00000      0.78201      0.02000
+MINI INTERN>     7489.39248  10367.72143    625.61087  11925.65977    533.73098
+MINI CROSS>      -463.63229      0.00000      0.00000      0.00000
+MINI EXTERN>    39196.34525-211495.81864      0.00000      0.00000      0.00000
+MINI CONSTR>   651373.91618      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       10 508608.83840    944.08765      0.60805      0.00065
+MINI INTERN>     7480.19581  10364.67693    612.31428  11917.21315    528.53099
+MINI CROSS>      -464.06508      0.00000      0.00000      0.00000
+MINI EXTERN>    39229.23063-211992.65477      0.00000      0.00000      0.00000
+MINI CONSTR>   650933.39647      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       20 508342.62183    266.21657      0.86056      0.00070
+MINI INTERN>     7468.36410  10358.16289    608.12557  11913.28891    527.02298
+MINI CROSS>      -464.11600      0.00000      0.00000      0.00000
+MINI EXTERN>    39206.04783-212106.24656      0.00000      0.00000      0.00000
+MINI CONSTR>   650831.97210      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       30 508140.00821    202.61362      1.45432      0.00075
+MINI INTERN>     7475.11694  10362.11066    604.98670  11910.04563    525.83796
+MINI CROSS>      -464.16034      0.00000      0.00000      0.00000
+MINI EXTERN>    39192.37948-212204.54694      0.00000      0.00000      0.00000
+MINI CONSTR>   650738.23812      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       40 507923.74562    216.26258      1.54085      0.00080
+MINI INTERN>     7472.90639  10356.93807    602.12005  11906.93006    524.75650
+MINI CROSS>      -464.16212      0.00000      0.00000      0.00000
+MINI EXTERN>    39178.34989-212299.91010      0.00000      0.00000      0.00000
+MINI CONSTR>   650645.81690      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       50 507648.57324    275.17238      0.49284      0.00036
+MINI INTERN>     7451.67779  10333.04330    599.14537  11904.00979    523.65791
+MINI CROSS>      -464.38142      0.00000      0.00000      0.00000
+MINI EXTERN>    39155.36523-212402.52764      0.00000      0.00000      0.00000
+MINI CONSTR>   650548.58291      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       60 507484.04483    164.52841      1.76743      0.00093
+MINI INTERN>     7472.45675  10348.44478    596.36809  11900.19208    522.61668
+MINI CROSS>      -464.18467      0.00000      0.00000      0.00000
+MINI EXTERN>    39152.70133-212493.72301      0.00000      0.00000      0.00000
+MINI CONSTR>   650449.17280      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       70 507194.91149    289.13334      0.56415      0.00042
+MINI INTERN>     7445.11687  10319.72608    593.37779  11897.12376    521.61554
+MINI CROSS>      -464.42260      0.00000      0.00000      0.00000
+MINI EXTERN>    39129.63661-212595.73731      0.00000      0.00000      0.00000
+MINI CONSTR>   650348.47475      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       80 507066.18501    128.72648      2.05307      0.00107
+MINI INTERN>     7476.93688  10342.72596    591.00274  11893.26900    520.69854
+MINI CROSS>      -463.85206      0.00000      0.00000      0.00000
+MINI EXTERN>    39132.05853-212677.88491      0.00000      0.00000      0.00000
+MINI CONSTR>   650251.23033      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>       90 506781.19557    284.98944      0.45260      0.00048
+MINI INTERN>     7434.29056  10305.15679    588.36499  11890.55817    519.76103
+MINI CROSS>      -464.32976      0.00000      0.00000      0.00000
+MINI EXTERN>    39111.31612-212765.31542      0.00000      0.00000      0.00000
+MINI CONSTR>   650161.39310      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>      100 506562.48118    218.71439      0.95634      0.00052
+MINI INTERN>     7441.93300  10304.76589    585.54117  11886.91122    518.74975
+MINI CROSS>      -464.36391      0.00000      0.00000      0.00000
+MINI EXTERN>    39100.19824-212863.40641      0.00000      0.00000      0.00000
+MINI CONSTR>   650052.15223      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+
+ STEEPD> Minimization exiting with number of steps limit (       100) exceeded.
+
+STPD MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+STPD INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+STPD CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+STPD EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+STPD CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+STPD>      100 506562.48118    218.71439      0.95634      0.00062
+STPD INTERN>     7441.93300  10304.76589    585.54117  11886.91122    518.74975
+STPD CROSS>      -464.36391      0.00000      0.00000      0.00000
+STPD EXTERN>    39100.19824-212863.40641      0.00000      0.00000      0.00000
+STPD CONSTR>   650052.15223      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+  
+ CHARMM>    mini abnr nstep 3000 nprint 100 tolg 1
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  NOEWald 
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ There are 29048954 atom  pairs and   116222 atom  exclusions.
+ There are        0 group pairs and    12527 group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29123934 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1713991 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+
+ ABNER> An energy minimization has been requested.
+
+ EIGRNG =    0.0005000   MINDIM =            5
+ NPRINT =          100   NSTEP  =         3000
+ PSTRCT =    0.0000000   SDSTP  =    0.0200000
+ STPLIM =    1.0000000   STRICT =    0.1000000
+ TOLFUN =    0.0000000   TOLGRD =    1.0000000
+ TOLITR =          100   TOLSTP =    0.0000000
+ FMEM   =    0.0000000
+MINI MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+MINI INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+MINI CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+MINI EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+MINI CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>        0 506562.48118    218.71439      0.95634      0.00000
+MINI INTERN>     7441.93300  10304.76589    585.54117  11886.91122    518.74975
+MINI CROSS>      -464.36391      0.00000      0.00000      0.00000
+MINI EXTERN>    39100.19824-212863.40641      0.00000      0.00000      0.00000
+MINI CONSTR>   650052.15223      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+
+ ABNER> Minimization exiting with gradient tolerance ( 1.0000000) satisfied.
+
+ABNR MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+ABNR INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+ABNR CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+ABNR EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+ABNR CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+ABNR>        1 506555.49930      6.98188      0.81880      0.02400
+ABNR INTERN>     7438.14482  10302.43393    585.51334  11886.82425    518.74301
+ABNR CROSS>      -464.35058      0.00000      0.00000      0.00000
+ABNR EXTERN>    39100.35798-212863.58918      0.00000      0.00000      0.00000
+ABNR CONSTR>   650051.42174      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+  
+ CHARMM>     
+  
+ CHARMM>    cons rmsd clear
+ RSMD restraint cleared 
+  
+ CHARMM>     
+  
+ CHARMM>    write coor card name 2agy_ws_min-step-1.cor
+ VOPEN> Attempting to open::2agy_ws_min-step-1.cor::
+ RDTITL> * 2AGY, WATER SHELL MINIMIZED, AFTER STEP 1
+ RDTITL> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    !
+ CHARMM>    ! Step 2: Minimize all hydrogens and waters
+ CHARMM>    !         Fix all heavy protein atoms
+ CHARMM>    !
+ CHARMM>    cons rmsd force 500 mass comp sele heavy_prot end
+ RMSD initialized, maxn =   10
+ mass weighting will be used 
+ SELRPN>   7368 atoms have been selected out of  51746
+ reference coordinates set to comparison coordinates.
+  
+ CHARMM>     
+  
+ CHARMM>    mini sd nstep 100
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  NOEWald 
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ There are 29123934 atom  pairs and   116222 atom  exclusions.
+ There are        0 group pairs and    12527 group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29123978 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1713990 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+
+ STEEPD> An energy minimization has been requested.
+
+ NSTEP  =          100   NPRINT =          100
+ STEP   =    0.0200000   TOLFUN =    0.0000000
+ TOLGRD =    0.0000000   TOLSTP =    0.0000000
+
+MINI MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+MINI INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+MINI CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+MINI EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+MINI CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>        0 116395.97720 390159.52211      0.93563      0.02000
+MINI INTERN>     7438.14482  10302.43393    585.51334  11886.82425    518.74301
+MINI CROSS>      -464.35058      0.00000      0.00000      0.00000
+MINI EXTERN>    39100.35798-212863.58918      0.00000      0.00000      0.00000
+MINI CONSTR>   259891.89963      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+ UPDECI: Nonbond update at step         1
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29124387 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714427 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Nonbond update at step         2
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29124371 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714396 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Nonbond update at step         3
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29124470 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714324 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Nonbond update at step         4
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29124538 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714229 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Nonbond update at step         5
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29124462 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714176 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Nonbond update at step         6
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29124434 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714267 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Nonbond update at step         7
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29124447 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714197 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Nonbond update at step        11
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29124454 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1713985 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+ UPDECI: Nonbond update at step        65
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29126197 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714076 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+MINI>      100 116126.74530    269.23189      0.08253      0.00009
+MINI INTERN>     7431.82325  10268.60151    594.24863  11880.77972    523.49229
+MINI CROSS>      -462.20667      0.00000      0.00000      0.00000
+MINI EXTERN>    38993.32764-212458.84107      0.00000      0.00000      0.00000
+MINI CONSTR>   259355.52000      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+
+ STEEPD> Minimization exiting with number of steps limit (       100) exceeded.
+
+STPD MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+STPD INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+STPD CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+STPD EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+STPD CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+STPD>      100 116126.74530    269.23189      0.08253      0.00011
+STPD INTERN>     7431.82325  10268.60151    594.24863  11880.77972    523.49229
+STPD CROSS>      -462.20667      0.00000      0.00000      0.00000
+STPD EXTERN>    38993.32764-212458.84107      0.00000      0.00000      0.00000
+STPD CONSTR>   259355.52000      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+  
+ CHARMM>    mini abnr nstep 3000 nprint 100 tolg 1
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  NOEWald 
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ There are 29126197 atom  pairs and   116222 atom  exclusions.
+ There are        0 group pairs and    12527 group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29127105 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714094 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+
+ ABNER> An energy minimization has been requested.
+
+ EIGRNG =    0.0005000   MINDIM =            5
+ NPRINT =          100   NSTEP  =         3000
+ PSTRCT =    0.0000000   SDSTP  =    0.0200000
+ STPLIM =    1.0000000   STRICT =    0.1000000
+ TOLFUN =    0.0000000   TOLGRD =    1.0000000
+ TOLITR =          100   TOLSTP =    0.0000000
+ FMEM   =    0.0000000
+MINI MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+MINI INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+MINI CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+MINI EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+MINI CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>        0 116126.74530    269.23189      0.08253      0.00000
+MINI INTERN>     7431.82325  10268.60151    594.24863  11880.77972    523.49229
+MINI CROSS>      -462.20667      0.00000      0.00000      0.00000
+MINI EXTERN>    38993.32764-212458.84107      0.00000      0.00000      0.00000
+MINI CONSTR>   259355.52000      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+
+ ABNER> Minimization exiting with gradient tolerance ( 1.0000000) satisfied.
+
+ABNR MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+ABNR INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+ABNR CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+ABNR EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+ABNR CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+ABNR>        1 116126.15098      0.59433      0.08204      0.02400
+ABNR INTERN>     7432.10541  10268.42583    594.28452  11880.77831    523.50667
+ABNR CROSS>      -462.21547      0.00000      0.00000      0.00000
+ABNR EXTERN>    38993.44204-212457.54673      0.00000      0.00000      0.00000
+ABNR CONSTR>   259353.37040      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+  
+ CHARMM>     
+  
+ CHARMM>    cons rmsd clear
+ RSMD restraint cleared 
+  
+ CHARMM>     
+  
+ CHARMM>    write coor card name 2agy_ws_min-step-2.cor
+ VOPEN> Attempting to open::2agy_ws_min-step-2.cor::
+ RDTITL> * 2AGY, WATER SHELL MINIMIZED, AFTER STEP 2
+ RDTITL> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    !
+ CHARMM>    ! Step 3: Minimize residues + hydrogens + waters
+ CHARMM>    !
+ CHARMM>    cons rmsd force 500 mass comp sele  backbone_prot end
+ RMSD initialized, maxn =   10
+ mass weighting will be used 
+ SELRPN>   3780 atoms have been selected out of  51746
+ reference coordinates set to comparison coordinates.
+  
+ CHARMM>     
+  
+ CHARMM>    mini sd nstep 100
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  NOEWald 
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ There are 29127105 atom  pairs and   116222 atom  exclusions.
+ There are        0 group pairs and    12527 group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29127129 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714080 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+
+ STEEPD> An energy minimization has been requested.
+
+ NSTEP  =          100   NPRINT =          100
+ STEP   =    0.0200000   TOLFUN =    0.0000000
+ TOLGRD =    0.0000000   TOLSTP =    0.0000000
+
+MINI MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+MINI INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+MINI CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+MINI EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+MINI CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>        0 110114.34571   6011.80526      0.66275      0.02000
+MINI INTERN>     7432.10541  10268.42583    594.28452  11880.77831    523.50667
+MINI CROSS>      -462.21547      0.00000      0.00000      0.00000
+MINI EXTERN>    38993.44204-212457.54673      0.00000      0.00000      0.00000
+MINI CONSTR>   253341.56514      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>      100 109145.99956    968.34615      0.18742      0.00022
+MINI INTERN>     7512.90472  10431.40001    608.40699  11911.07962    536.11443
+MINI CROSS>      -459.43570      0.00000      0.00000      0.00000
+MINI EXTERN>    39373.18891-212336.83259      0.00000      0.00000      0.00000
+MINI CONSTR>   251569.17319      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+
+ STEEPD> Minimization exiting with number of steps limit (       100) exceeded.
+
+STPD MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+STPD INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+STPD CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+STPD EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+STPD CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+STPD>      100 109145.99956    968.34615      0.18742      0.00026
+STPD INTERN>     7512.90472  10431.40001    608.40699  11911.07962    536.11443
+STPD CROSS>      -459.43570      0.00000      0.00000      0.00000
+STPD EXTERN>    39373.18891-212336.83259      0.00000      0.00000      0.00000
+STPD CONSTR>   251569.17319      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+  
+ CHARMM>    mini abnr nstep 3000 nprint 100 tolg 1
+
+ NONBOND OPTION FLAGS: 
+     ELEC     VDW      ATOMs    CDIElec  FSHIft   VATOm    VFSWIt  
+     BYGRoup  NOEXtnd  NOEWald 
+ CUTNB  = 14.000 CTEXNB =999.000 CTONNB = 10.000 CTOFNB = 12.000
+ CGONNB =  0.000 CGOFNB = 10.000
+ WMIN   =  1.500 WRNMXD =  0.500 E14FAC =  1.000 EPS    =  1.000
+ NBXMOD =      5
+ There are 29127129 atom  pairs and   116222 atom  exclusions.
+ There are        0 group pairs and    12527 group exclusions.
+ Generating nonbond list with Exclusion mode = 5
+ == PRIMARY == SPACE FOR 33455972 ATOM PAIRS AND        0 GROUP PAIRS
+
+ General atom nonbond list generation found:
+ 29129207 ATOM PAIRS WERE FOUND FOR ATOM LIST
+  1714086 GROUP PAIRS REQUIRED ATOM SEARCHES
+
+
+
+ ABNER> An energy minimization has been requested.
+
+ EIGRNG =    0.0005000   MINDIM =            5
+ NPRINT =          100   NSTEP  =         3000
+ PSTRCT =    0.0000000   SDSTP  =    0.0200000
+ STPLIM =    1.0000000   STRICT =    0.1000000
+ TOLFUN =    0.0000000   TOLGRD =    1.0000000
+ TOLITR =          100   TOLSTP =    0.0000000
+ FMEM   =    0.0000000
+MINI MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+MINI INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+MINI CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+MINI EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+MINI CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+MINI>        0 109145.99956    968.34615      0.18742      0.00000
+MINI INTERN>     7512.90472  10431.40001    608.40699  11911.07962    536.11443
+MINI CROSS>      -459.43570      0.00000      0.00000      0.00000
+MINI EXTERN>    39373.18891-212336.83259      0.00000      0.00000      0.00000
+MINI CONSTR>   251569.17319      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+
+ ABNER> Minimization exiting with gradient tolerance ( 1.0000000) satisfied.
+
+ABNR MIN: Cycle      ENERgy      Delta-E         GRMS    Step-size
+ABNR INTERN:          BONDs       ANGLes       UREY-b    DIHEdrals    IMPRopers
+ABNR CROSS:           CMAPs        PMF1D        PMF2D        PRIMO
+ABNR EXTERN:        VDWaals         ELEC       HBONds          ASP         USER
+ABNR CONSTR:       HARMonic    CDIHedral          CIC     RESDistance       NOE
+ ----------       ---------    ---------    ---------    ---------    ---------
+ABNR>        1 109144.65536      1.34420      0.16563      0.02400
+ABNR INTERN>     7512.46200  10431.58592    608.49606  11911.12889    536.14528
+ABNR CROSS>      -459.43204      0.00000      0.00000      0.00000
+ABNR EXTERN>    39373.84793-212336.29858      0.00000      0.00000      0.00000
+ABNR CONSTR>   251566.71990      0.00000      0.00000      0.00000      0.00000
+ ----------       ---------    ---------    ---------    ---------    ---------
+  
+ CHARMM>     
+  
+ CHARMM>    cons rmsd clear
+ RSMD restraint cleared 
+  
+ CHARMM>     
+  
+ CHARMM>    write coor card name 2agy_ws_min-step-3.cor
+ VOPEN> Attempting to open::2agy_ws_min-step-3.cor::
+ RDTITL> * 2AGY, WATER SHELL MINIMIZED, AFTER STEP 3
+ RDTITL> *
+ VCLOSE: Closing unit   90 with status "KEEP"
+ VCLOSE: Closing unit   90 with status "KEEP"
+  
+ CHARMM>     
+  
+ CHARMM>    stop
+$$$$$$  New timer profile $$$$$
+      NBONDS                         16.32 Other:            0.00
+   List time                      16.32 Other:            0.00
+      Nonbond force                 137.72 Other:            0.00
+         Bond energy                     0.15 Other:            0.00
+         Angle energy                    0.61 Other:            0.00
+         Dihedral energy                 0.81 Other:            0.00
+         Restraints energy               0.00 Other:            0.00
+      INTRNL energy                   1.58 Other:            0.01
+   Energy time                   139.52 Other:            0.23
+ Total time                    170.38 Other:           14.54
+
+                    NORMAL TERMINATION BY NORMAL STOP
+                    MOST SEVERE WARNING WAS AT LEVEL  0
+
+                    $$$$$ JOB ACCOUNTING INFORMATION $$$$$
+                     ELAPSED TIME:     2.84  MINUTES 
+                         CPU TIME:     2.83  MINUTES 

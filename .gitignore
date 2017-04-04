@@ -3,4 +3,6 @@
 *.cor
 *.prmtop
 *.inpcrd
+*.mdcrd
+*.rst
 

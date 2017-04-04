@@ -1,0 +1,84 @@
+* Minimisation
+*
+
+prnlev 5
+set molname 2agy_ws_min-step-2
+set datadir ../common
+stream @datadir/toppar_water_ions_fixed.str
+read rtf card name @datadir/top_all36_prot.rtf append flex
+read rtf card name @datadir/aadh_topologies.rtf append flex
+read para card name @datadir/par_all36_prot_mod.prm append flex
+read para card name @datadir/aadh_parameters.prm append flex
+
+read psf card name 2agy_ws.psf
+read coord card name @molname.cor
+
+coor statistics
+
+calc xdim =  abs ( ?XMAX - ?XMIN ) 
+calc ydim =  abs ( ?YMAX - ?YMIN ) 
+calc zdim =  abs ( ?ZMAX - ?ZMIN ) 
+calc xcen = ?XMIN + @xdim/2.0
+calc ycen = ?yMIN + @ydim/2.0
+calc zcen = ?zMIN + @zdim/2.0
+
+
+
+!
+! Define selections
+!
+define protein sele segid AL* .or. segid BT* end
+define heavy_all sele all .and. .not. type H* end
+define heavy_prot sele protein .and. .not. type H* end 
+define backbone_prot sele type n .or. type ca .or. type c .or. type o end
+
+!
+! Minimization 
+!
+ 
+!
+! Step 1: Minimize H-atoms
+!         Fix heavy atoms 
+!
+cons rmsd force 500 mass comp sele heavy_all end
+ 
+mini sd nstep 100
+mini abnr nstep 3000 nprint 100 tolg 1
+
+cons rmsd clear
+
+write coor card name 2agy_ws_min-step-1.cor
+* 2agy, water shell minimized, after step 1
+*
+
+!
+! Step 2: Minimize all hydrogens and waters
+!         Fix all heavy protein atoms 
+!
+cons rmsd force 500 mass comp sele heavy_prot end 
+
+mini sd nstep 100
+mini abnr nstep 3000 nprint 100 tolg 1
+
+cons rmsd clear
+
+write coor card name 2agy_ws_min-step-2.cor
+* 2agy, water shell minimized, after step 2
+*
+
+!
+! Step 3: Minimize residues + hydrogens + waters
+! 
+cons rmsd force 500 mass comp sele  backbone_prot end 
+
+mini sd nstep 100
+mini abnr nstep 3000 nprint 100 tolg 1 
+
+cons rmsd clear
+
+write coor card name 2agy_ws_min-step-3.cor
+* 2agy, water shell minimized, after step 3
+*
+
+stop
+

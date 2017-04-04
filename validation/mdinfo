@@ -1,8 +1,8 @@
 
  NSTEP =        0   TIME(PS) =       0.000  TEMP(K) =     0.00  PRESS =     0.0
- Etot   =   -434790.4532  EKtot   =         0.0000  EPtot      =   -434790.4532
- BOND   =     17953.4428  ANGLE   =     17438.8735  DIHED      =     12006.0222
- UB     =       602.3999  IMP     =       519.6085  CMAP       =      -466.1566
- 1-4 NB =      4257.5020  1-4 EEL =     40257.3876  VDWAALS    =     83044.9421
- EELEC  =   -610404.4753  EHBOND  =         0.0000  RESTRAINT  =         0.0000
- Ewald error estimate:   0.1479E-05
+ Etot   =   -465478.6985  EKtot   =         0.0000  EPtot      =   -465478.6985
+ BOND   =     17529.4664  ANGLE   =     14211.4033  DIHED      =      9761.4327
+ UB     =       189.6159  IMP     =       184.9983  CMAP       =      -576.9161
+ 1-4 NB =      2267.8610  1-4 EEL =     39246.2391  VDWAALS    =     67782.5660
+ EELEC  =   -616075.3650  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ Ewald error estimate:   0.3936E-05
