@@ -1,4 +1,4 @@
-AADH equilibration: 100ps MD with res on backbone 
+AADH equilibration: 100ps MD with no res on backbone 
 &cntrl
   imin   = 0,                    ! INP Standard MD, no minimization 
   irest  = 1,                    ! INP Restart simulation
@@ -7,9 +7,6 @@ AADH equilibration: 100ps MD with res on backbone
   ntpr   = 1000,                  ! OUT print frequencey for energy info to mdout
   ntwr   = 1000,                  ! OUT write frequency for restart file 
   ntwx   = 1000,                  ! OUT write frequency for coordinates
-  ntr    = 1,                    ! RESTRAINTS Use restraints
-  restraint_wt  = 10,            ! RESTRAINTS Harmonic restraint weights 
-  restraintmask = '(@CA,C,O,N) & (!:WAT)',   ! RESTRAINTS Restrain backbone only
   ntc    = 2,                    ! RESTRAINTS SHAKE for TIP3P
   nscm   = 1000,                 ! MD frequency to remove C.o.M motion
   dt     = 0.001,                ! MD timestep 
@@ -18,10 +15,10 @@ AADH equilibration: 100ps MD with res on backbone
   tempi  = 310.0                  ! TEMP initial temperature
   temp0  = 310.0,                ! TEMP final temperature
   ntt    = 3,                    ! TEMP Temp control 3 = Langevin, 0 = NVE
-  gamma_ln = 1.0,                ! TEMP collision frequency
+  gamma_ln = 3.0,                ! TEMP collision frequency
   ntp    = 1,                    ! PRESSURE Constant pressure dynamics
-  pres0 = 1.01325,               ! PRESSURE the pressure in bar
   barostat = 2,                  ! PRESSURE MC barostat 
+  pres0 = 1.01325,               ! PRESSURE the pressure in bar
   mcbarint = 100, 		 ! PRESSURE # MC sampling frequency
   taup   = 1.0,                  ! PRESSURE pressure relaxation (increase if unstable)            
   ntf    = 2,                    ! POTENTIAL omit H-atoms in potential evaluation 

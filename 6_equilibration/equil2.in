@@ -21,6 +21,7 @@ AADH equilibration: 100ps MD with res on backbone
   gamma_ln = 1.0,                ! TEMP collision frequency
   ntp    = 1,                    ! PRESSURE Constant pressure dynamics
   barostat = 2,                  ! PRESSURE MC barostat 
+  pres0 = 1.01325,               ! PRESSURE the pressure in bar
   mcbarint = 100, 		 ! PRESSURE # MC sampling frequency
   taup   = 1.0,                  ! PRESSURE pressure relaxation (increase if unstable)            
   ntf    = 2,                    ! POTENTIAL omit H-atoms in potential evaluation 
