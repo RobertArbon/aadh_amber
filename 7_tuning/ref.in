@@ -1,0 +1,16 @@
+Validation script
+&cntrl
+ntf=2,
+ntc=2,
+ntb=1,
+cut=20.00,
+/
+&ewald
+ew_type=1,
+dsum_tol=1e-6,
+rsum_tol=5e-6
+/
+&debugf
+do_debugf=1,
+dumpfrc = 1,
+/

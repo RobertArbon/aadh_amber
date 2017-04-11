@@ -1,0 +1,386 @@
+
+          -------------------------------------------------------
+          Amber 16 SANDER                              2016
+          -------------------------------------------------------
+
+| Run on 04/06/2017 at 17:31:08
+
+|   Executable path: sander
+| Working directory: /home/robert/Research/AADH/MD/7_tuning
+|          Hostname: Unknown
+  [-O]verwriting output
+
+File Assignments:
+|  MDIN: cut11.in                                                              
+| MDOUT: cut11.out                                                             
+|INPCRD: ../common/equil6.rst                                                  
+|  PARM: ../common/2agy_final_min.prmtop                                       
+|RESTRT: restrt                                                                
+|  REFC: refc                                                                  
+| MDVEL: mdvel                                                                 
+| MDFRC: mdfrc                                                                 
+|  MDEN: mden                                                                  
+| MDCRD: mdcrd                                                                 
+|MDINFO: mdinfo                                                                
+|  MTMD: mtmd                                                                  
+|INPDIP: inpdip                                                                
+|RSTDIP: rstdip                                                                
+|INPTRA: inptraj                                                               
+
+
+ Here is the input file:
+
+Validation script                                                              
+&cntrl                                                                         
+ntc=2,                                                                         
+fswitch=10,                                                                    
+ntf    = 2,                    ! POTENTIAL omit H-atoms in potential evaluation
+ntb    = 1,                    ! POTENTIAL Constant Volume PBC for non-bonded forces
+cut    = 11.0,                 ! POTENTIAL Non-bonded cutoff                   
+fswitch = 9.0,                ! POTENTIAL Switching function start length      
+/                                                                              
+!&ewald                                                                        
+!ew_type=1,                                                                    
+!dsum_tol=1e-6,                                                                
+!rsum_tol=5e-6                                                                 
+!/                                                                             
+&debugf                                                                        
+do_debugf=1,                                                                   
+rmsfrc = 1,                                                                    
+/                                                                              
+
+--------------------------------------------------------------------------------
+   1.  RESOURCE   USE: 
+--------------------------------------------------------------------------------
+
+| Flags:                                                                        
+ getting new box info from bottom of inpcrd
+|  INFO: Old style inpcrd file read
+
+| peek_ewald_inpcrd: Box info found
+|Largest sphere to fit in unit cell has radius =    44.450
+| New format PARM file being parsed.
+| Version =    1.000 Date = 04/03/17 Time = 21:47:27
+ NATOM  =  115183 NTYPES =      45 NBONH =  107615 MBONA  =    7567
+ NTHETH =   49571 MTHETA =   10290 NPHIH =   26934 MPHIA  =   18893
+ NHPARM =       0 NPARM  =       0 NNB   =  213960 NRES   =   34667
+ NBONA  =    7567 NTHETA =   10290 NPHIA =   18893 NUMBND =      84
+ NUMANG =     194 NPTRA  =     454 NATYP =       1 NPHB   =       0
+ IFBOX  =       1 NMXRS  =      45 IFCAP =       0 NEXTRA =       0
+ NCOPY  =       0
+
+| Force field information read from topology file: 
+|              >>>> CHARMM36 All-Hydrogen Parameter File for Proteins <<<<<<<<<<  
+|
+|CHARMM: CHARMM force field in use. 
+|CHARMM: Overriding default value of chngmask.
+|CHARMM: Setting chngmask = 0.
+
+|     Memory Use     Allocated
+|     Real             7691042
+|     Hollerith         380218
+|     Integer          5106032
+|     Max Pairs       84352350
+|     nblistReal       1382196
+|     nblist Int       3924853
+|       Total           437148 kbytes
+
+| Note: 1-4 EEL scale factors are being read from the topology file.
+
+| Note: 1-4 VDW scale factors are being read from the topology file.
+| Duplicated    0 dihedrals
+| Duplicated    0 dihedrals
+|CHARMM: Reticulating splines.
+
+     BOX TYPE: RECTILINEAR
+
+--------------------------------------------------------------------------------
+   2.  CONTROL  DATA  FOR  THE  RUN
+--------------------------------------------------------------------------------
+
+                                                                                
+
+General flags:
+     imin    =       0, nmropt  =       0
+
+Nature and format of input:
+     ntx     =       1, irest   =       0, ntrx    =       1
+
+Nature and format of output:
+     ntxo    =       2, ntpr    =      50, ntrx    =       1, ntwr    =       1
+     iwrap   =       0, ntwx    =       0, ntwv    =       0, ntwe    =       0
+     ioutfm  =       1, ntwprt  =       0, idecomp =       0, rbornstat=      0
+
+Potential function:
+     ntf     =       2, ntb     =       1, igb     =       0, nsnb    =      25
+     ipol    =       0, gbsa    =       0, iesp    =       0
+     dielc   =   1.00000, cut     =  11.00000, intdiel =   1.00000
+
+Frozen or restrained atoms:
+     ibelly  =       0, ntr     =       0
+
+Molecular dynamics:
+     nstlim  =         1, nscm    =      1000, nrespa  =         1
+     t       =   0.00000, dt      =   0.00100, vlimit  =  20.00000
+
+SHAKE:
+     ntc     =       2, jfastw  =       0
+     tol     =   0.00001
+
+Ewald parameters:
+     verbose =       0, ew_type =       0, nbflag  =       1, use_pme =       1
+     vdwmeth =       0, eedmeth =       1, netfrc  =       1
+     Box X =  123.876   Box Y =  103.149   Box Z =   88.900
+     Alpha =   90.000   Beta  =   90.000   Gamma =   90.000
+     NFFT1 =  128       NFFT2 =  108       NFFT3 =   90
+     Cutoff=   11.000   Tol   =0.100E-04
+     Ewald Coefficient =  0.24861
+     Interpolation order =    4
+
+--------------------------------------------------------------------------------
+   3.  ATOMIC COORDINATES AND VELOCITIES
+--------------------------------------------------------------------------------
+
+                                                                                
+ begin time read from input coords =  1070.000 ps
+
+ Number of triangulated 3-point waters found:    33521
+
+     Sum of charges from parm topology file =  -0.00000000
+     Forcing neutrality...
+ DEBUG FORCE!; calling force routine
+ ---------------------------------------------------
+ APPROXIMATING switch and d/dx switch using CUBIC SPLINE INTERPOLATION
+ using   5000.0 points per unit in tabled values
+ TESTING RELATIVE ERROR over r ranging from 0.0 to cutoff
+| CHECK switch(x): max rel err =   0.2738E-14   at   2.422500
+| CHECK d/dx switch(x): max rel err =   0.8168E-11   at   2.732560
+ ---------------------------------------------------
+| Local SIZE OF NONBOND LIST =   53540209
+| TOTAL SIZE OF NONBOND LIST =   53540209
+ DEBUG FORCE!; back from force routine
+
+ NSTEP =        0   TIME(PS) =       0.000  TEMP(K) =     0.00  PRESS =     0.0
+ Etot   =   -360203.9909  EKtot   =         0.0000  EPtot      =   -360203.9909
+ BOND   =      3059.7458  ANGLE   =      7388.3039  DIHED      =      9638.2010
+ UB     =       892.1626  IMP     =       512.7515  CMAP       =      -629.5396
+ 1-4 NB =      2530.5708  1-4 EEL =     39414.2796  VDWAALS    =     27660.9553
+ EELEC  =   -450671.4218  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ EKCMT  =         0.0000  VIRIAL  =         0.0000  VOLUME     =   1135935.0825
+                                                    Density    =         1.0446
+ Ewald error estimate:   0.6342E-05
+ ------------------------------------------------------------------------------
+
+ CHECKING energies,forces against forcedump.dat
+ First check new, old coordinates
+ -----------------------------------------
+ Maximum atomic RMS coordinate error: 0.000E+00 at atom number         1
+ -----------------------------------------
+ ERRORS in Energies, virials and forces
+ Compared to stored results in forcedump.dat
+ -----------------------------------------
+ Relative errors in energy components:
+ -----------------------------------------
+ Potential energy:      -0.36020E+06 vs -0.36192E+06 relative error: 0.474E-02
+ Nonbond energy:         0.27661E+05 vs  0.25945E+05 relative error: 0.620E-01
+ Electrostatic energy:  -0.45067E+06 vs -0.45067E+06 relative error: 0.404E-06
+ Bond energy:            0.30597E+04 vs  0.30597E+04 relative error: 0.149E-15
+ Angle energy:           0.73883E+04 vs  0.73883E+04 relative error: 0.000E+00
+ Dihedral energy:        0.96382E+04 vs  0.96382E+04 relative error: 0.000E+00
+ 1-4VDW energy:          0.25306E+04 vs  0.25306E+04 relative error: 0.180E-15
+ 1-4EE energy:           0.39414E+05 vs  0.39414E+05 relative error: 0.000E+00
+ Constraint energy:      0.00000E+00 vs  0.00000E+00 relative error: 0.000E+00
+ Polarization energy:    0.00000E+00 vs  0.00000E+00 relative error: 0.000E+00
+ -----------------------------------------
+ Relative errors in ewald energy components:
+ -----------------------------------------
+ Direct ee:             -0.38246E+06 vs -0.41208E+06 relative error: 0.719E-01
+ Reciprocal ee:          0.12082E+04 vs  0.24338E+03 relative error: 0.799E+00
+ Adjust ee:              0.16375E+07 vs  0.99643E+06 relative error: 0.391E+00
+ Self ee:               -0.17069E+07 vs -0.10353E+07 relative error: 0.393E+00
+ Direct vdw:             0.27661E+05 vs  0.26183E+05 relative error: 0.534E-01
+ Long-range vdw:         0.00000E+00 vs -0.23837E+03 relative error: 0.100E+01
+ -----------------------------------------
+ Relative errors in total force components:
+ -----------------------------------------
+ FRCX:                  -0.11422E-05 vs  0.00000E+00 relative error: 0.100E+01
+ FRCY:                   0.25313E-05 vs  0.00000E+00 relative error: 0.100E+01
+ FRCZ:                   0.18232E-06 vs  0.00000E+00 relative error: 0.100E+01
+ -----------------------------------------
+ Relative errors in Virial Tensors:
+ -----------------------------------------
+ Reciprocal ee virial:   0.95044E+03 vs  0.16125E+03 relative error: 0.830E+00
+                         0.41830E+01 vs  0.79034E+01 relative error: 0.471E+00
+                         0.25275E+02 vs  0.92652E+01 relative error: 0.633E+00
+                         0.41830E+01 vs  0.79034E+01 relative error: 0.471E+00
+                         0.94137E+03 vs  0.16888E+03 relative error: 0.821E+00
+                        -0.31331E+00 vs -0.57159E+01 relative error: 0.945E+00
+                         0.25275E+02 vs  0.92652E+01 relative error: 0.633E+00
+                        -0.31331E+00 vs -0.57159E+01 relative error: 0.945E+00
+                         0.98193E+03 vs  0.16792E+03 relative error: 0.829E+00
+ Direct virial:         -0.26483E+06 vs -0.26796E+06 relative error: 0.117E-01
+                         0.18607E+04 vs  0.24409E+04 relative error: 0.238E+00
+                         0.20815E+04 vs  0.20197E+04 relative error: 0.297E-01
+                         0.18607E+04 vs  0.24409E+04 relative error: 0.238E+00
+                        -0.26496E+06 vs -0.26716E+06 relative error: 0.824E-02
+                         0.15384E+03 vs  0.21208E+03 relative error: 0.275E+00
+                         0.20815E+04 vs  0.20197E+04 relative error: 0.297E-01
+                         0.15384E+03 vs  0.21208E+03 relative error: 0.275E+00
+                        -0.26476E+06 vs -0.26765E+06 relative error: 0.108E-01
+ Adjust ee virial:      -0.69723E+04 vs -0.12439E+04 relative error: 0.822E+00
+                         0.82811E+03 vs  0.24313E+03 relative error: 0.706E+00
+                        -0.11227E+03 vs -0.34550E+02 relative error: 0.692E+00
+                         0.82811E+03 vs  0.24313E+03 relative error: 0.706E+00
+                        -0.56368E+04 vs -0.85347E+03 relative error: 0.849E+00
+                         0.74191E+02 vs  0.21285E+02 relative error: 0.713E+00
+                        -0.11227E+03 vs -0.34550E+02 relative error: 0.692E+00
+                         0.74191E+02 vs  0.21285E+02 relative error: 0.713E+00
+                        -0.66718E+04 vs -0.11534E+04 relative error: 0.827E+00
+ Nonbond atomic virial: -0.61168E+06 vs -0.60923E+06 relative error: 0.400E-02
+                         0.19445E+05 vs  0.19434E+05 relative error: 0.539E-03
+                        -0.17391E+05 vs -0.17393E+05 relative error: 0.794E-04
+                        -0.27289E+05 vs -0.27293E+05 relative error: 0.142E-03
+                        -0.55859E+06 vs -0.55620E+06 relative error: 0.429E-02
+                        -0.72447E+04 vs -0.72332E+04 relative error: 0.159E-02
+                         0.10109E+05 vs  0.10110E+05 relative error: 0.511E-04
+                        -0.15735E+05 vs -0.15718E+05 relative error: 0.110E-02
+                        -0.64466E+06 vs -0.64227E+06 relative error: 0.371E-02
+ Nonbond Molec. virial:  0.18482E+05 vs  0.20715E+05 relative error: 0.108E+00
+                         0.19817E+04 vs  0.19967E+04 relative error: 0.748E-02
+                         0.33076E+04 vs  0.33084E+04 relative error: 0.250E-03
+                        -0.55577E+03 vs -0.55284E+03 relative error: 0.528E-02
+                         0.19444E+05 vs  0.21655E+05 relative error: 0.102E+00
+                        -0.92899E+03 vs -0.93071E+03 relative error: 0.185E-02
+                         0.36515E+04 vs  0.36534E+04 relative error: 0.505E-03
+                        -0.95834E+03 vs -0.95861E+03 relative error: 0.285E-03
+                         0.25105E+05 vs  0.27269E+05 relative error: 0.794E-01
+ -----------------------------------------
+ TOTAL FORCES:     
+ -----------------------------------------
+ ABSOLUTE RMS deviations: (in kcal/(mol Ang))
+ Maximum atomic RMS force error: 0.439E-02 at atom number     25797
+ Minimum atomic RMS force error: 0.751E-05 at atom number     10389
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.670E-03 0.102E-02 0.151E-02 0.183E-02 0.239E-02
+ Overall RMS FORCE ERROR:  0.939E-03
+ -----------------------------------------
+ RELATIVE RMS deviations: 
+ Maximum atomic RMS force error: 0.187E-02 at atom number      2307
+ Minimum atomic RMS force error: 0.134E-05 at atom number      2385
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.609E-04 0.890E-04 0.125E-03 0.154E-03 0.236E-03
+ Overall RMS FORCE ERROR:  0.673E-04
+ -----------------------------------------
+ FORCES from BOND ROUTINE:     
+ -----------------------------------------
+ ABSOLUTE RMS deviations: (in kcal/(mol Ang))
+ Maximum atomic RMS force error: 0.167E-13 at atom number     12121
+ Minimum atomic RMS force error: 0.000E+00 at atom number        14
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.185E-16 0.278E-16 0.333E-16 0.531E-15 0.309E-14
+ Overall RMS FORCE ERROR:  0.593E-15
+ -----------------------------------------
+ RELATIVE RMS deviations: 
+ Maximum atomic RMS force error: 0.233E-14 at atom number      9720
+ Minimum atomic RMS force error: 0.000E+00 at atom number        14
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.259E-17 0.389E-17 0.563E-17 0.723E-16 0.205E-15
+ Overall RMS FORCE ERROR:  0.424E-16
+ -----------------------------------------
+ FORCES from ANGLE ROUTINE:     
+ -----------------------------------------
+ ABSOLUTE RMS deviations: (in kcal/(mol Ang))
+ Maximum atomic RMS force error: 0.711E-14 at atom number     14258
+ Minimum atomic RMS force error: 0.000E+00 at atom number         6
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.791E-17 0.119E-16 0.342E-16 0.115E-14 0.307E-14
+ Overall RMS FORCE ERROR:  0.604E-15
+ -----------------------------------------
+ RELATIVE RMS deviations: 
+ Maximum atomic RMS force error: 0.254E-14 at atom number       496
+ Minimum atomic RMS force error: 0.000E+00 at atom number         6
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.282E-17 0.423E-17 0.507E-17 0.100E-15 0.256E-15
+ Overall RMS FORCE ERROR:  0.433E-16
+ -----------------------------------------
+ FORCES from DIHEDRAL ROUTINE:     
+ -----------------------------------------
+ ABSOLUTE RMS deviations: (in kcal/(mol Ang))
+ Maximum atomic RMS force error: 0.552E-14 at atom number     11306
+ Minimum atomic RMS force error: 0.000E+00 at atom number         1
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.613E-17 0.920E-17 0.110E-16 0.281E-15 0.207E-14
+ Overall RMS FORCE ERROR:  0.372E-15
+ -----------------------------------------
+ RELATIVE RMS deviations: 
+ Maximum atomic RMS force error: 0.235E-14 at atom number       496
+ Minimum atomic RMS force error: 0.000E+00 at atom number         1
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.259E-17 0.389E-17 0.467E-17 0.409E-16 0.155E-15
+ Overall RMS FORCE ERROR:  0.266E-16
+ -----------------------------------------
+ FORCES from Direct VDW ROUTINE:     
+ -----------------------------------------
+ ABSOLUTE RMS deviations: (in kcal/(mol Ang))
+ Maximum atomic RMS force error: 0.389E-02 at atom number      4482
+ Minimum atomic RMS force error: 0.561E-07 at atom number     67609
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.211E-04 0.170E-03 0.773E-03 0.115E-02 0.158E-02
+ Overall RMS FORCE ERROR:  0.416E-03
+ -----------------------------------------
+ RELATIVE RMS deviations: 
+ Maximum atomic RMS force error: 0.244E-02 at atom number      2307
+ Minimum atomic RMS force error: 0.544E-08 at atom number     67609
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.391E-05 0.117E-04 0.480E-04 0.717E-04 0.134E-03
+ Overall RMS FORCE ERROR:  0.298E-04
+ -----------------------------------------
+ FORCES from Direct EE ROUTINE:     
+ -----------------------------------------
+ ABSOLUTE RMS deviations: (in kcal/(mol Ang))
+ Maximum atomic RMS force error: 0.269E+01 at atom number      8957
+ Minimum atomic RMS force error: 0.000E+00 at atom number      4167
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.453E+00 0.654E+00 0.947E+00 0.111E+01 0.144E+01
+ Overall RMS FORCE ERROR:  0.599E+00
+ -----------------------------------------
+ RELATIVE RMS deviations: 
+ Maximum atomic RMS force error: 0.145E+01 at atom number      7454
+ Minimum atomic RMS force error: 0.000E+00 at atom number      4167
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.416E-01 0.568E-01 0.756E-01 0.905E-01 0.138E+00
+ Overall RMS FORCE ERROR:  0.429E-01
+ -----------------------------------------
+ FORCES from Reciprocal EE ROUTINE:     
+ -----------------------------------------
+ ABSOLUTE RMS deviations: (in kcal/(mol Ang))
+ Maximum atomic RMS force error: 0.162E+01 at atom number     18354
+ Minimum atomic RMS force error: 0.161E-05 at atom number     13922
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.270E+00 0.400E+00 0.578E+00 0.698E+00 0.928E+00
+ Overall RMS FORCE ERROR:  0.365E+00
+ -----------------------------------------
+ RELATIVE RMS deviations: 
+ Maximum atomic RMS force error: 0.735E+00 at atom number     74437
+ Minimum atomic RMS force error: 0.317E-07 at atom number     13508
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.243E-01 0.358E-01 0.505E-01 0.623E-01 0.969E-01
+ Overall RMS FORCE ERROR:  0.261E-01
+ -----------------------------------------
+ FORCES from Adjust EE ROUTINE:     
+ -----------------------------------------
+ ABSOLUTE RMS deviations: (in kcal/(mol Ang))
+ Maximum atomic RMS force error: 0.241E+01 at atom number     14270
+ Minimum atomic RMS force error: 0.000E+00 at atom number       278
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.340E+00 0.675E+00 0.677E+00 0.678E+00 0.114E+01
+ Overall RMS FORCE ERROR:  0.491E+00
+ -----------------------------------------
+ RELATIVE RMS deviations: 
+ Maximum atomic RMS force error: 0.114E+01 at atom number      7454
+ Minimum atomic RMS force error: 0.000E+00 at atom number       278
+ The 50th,75th,90th,95th and 99th percentile  Atomic RMS force errors:
+ 0.360E-01 0.468E-01 0.613E-01 0.744E-01 0.123E+00
+ Overall RMS FORCE ERROR:  0.351E-01
+ -----------------------------------------
+ --------------------------------------------

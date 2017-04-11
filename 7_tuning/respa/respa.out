@@ -1,0 +1,59 @@
+
+          -------------------------------------------------------
+          Amber 16 PMEMD                              2016
+          -------------------------------------------------------
+
+| PMEMD implementation of SANDER, Release 16
+
+| Run on 04/06/2017 at 20:06:11
+
+|   Executable path: pmemd.cuda
+| Working directory: /home/robert/Research/AADH/MD/7_tuning
+|          Hostname: Unknown
+  [-O]verwriting output
+
+File Assignments:
+|   MDIN: respa.in                                                              
+|  MDOUT: respa.out                                                             
+| INPCRD: ../common/equil6.rst                                                  
+|   PARM: ../common/2agy_final_min.prmtop                                       
+| RESTRT: restrt                                                                
+|   REFC: refc                                                                  
+|  MDVEL: mdvel                                                                 
+|   MDEN: mden                                                                  
+|  MDCRD: mdcrd                                                                 
+| MDINFO: mdinfo                                                                
+|  MDFRC: mdfrc                                                                 
+
+
+ Here is the input file:
+
+AADH reference trajectory: 20ps MD                                             
+&cntrl                                                                         
+  imin   = 0,                    ! INP Standard MD, no minimization            
+  irest  = 1,                    ! INP Restart simulation                      
+  ntx    = 5,                    ! INP Read in coordinates and velocities      
+  ntpr   = 500,                  ! OUT print frequencey for energy info to mdou
+  ntc    = 2,                    ! RESTRAINTS SHAKE for TIP3P                  
+  nscm   = 1000,                 ! MD frequency to remove C.o.M motion         
+  dt     = 0.002,                ! MD timestep                                 
+  nrespa = 2,                    ! MD RESPA time step.  Keep nrespa * dt <= 4  
+  nstlim = 20000,                 ! MD Number of time steps                    
+  tempi  = 310.0,                  ! TEMP initial temperature                  
+  temp0  = 310.0,                ! TEMP final temperature                      
+  ntt    = 3,                    ! TEMP Temp control 3 = Langevin, 0 = NVE     
+  gamma_ln = 5.0,                ! TEMP collision frequency                    
+  ntf    = 2,                    ! POTENTIAL omit H-atoms in potential evaluati
+  ntb    = 1,                    ! POTENTIAL Constant Volume PBC for non-bonded
+  cut    = 12.0,                 ! POTENTIAL Non-bonded cutoff                 
+  fswitch = 10.0,                ! POTENTIAL Switching function start length   
+/                                                                              
+                                                                               
+
+
+Note: ig = -1. Setting random seed to   583599 based on wallclock time in 
+      microseconds.
+CUDA (GPU): Implementation does not support nrespa.
+            Require nrespa == 1.
+
+ Input errors occurred. Terminating execution.

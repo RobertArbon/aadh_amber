@@ -1,0 +1,6 @@
+
+parm ../common/2agy_final_min.prmtop
+HMassRepartition
+parmout ../common/2agy_final_min_hmr.prmtop
+
+

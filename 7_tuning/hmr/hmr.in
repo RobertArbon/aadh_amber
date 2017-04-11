@@ -1,0 +1,21 @@
+AADH reference trajectory: 20ps MD   
+&cntrl
+  imin   = 0,                    ! INP Standard MD, no minimization 
+  irest  = 1,                    ! INP Restart simulation
+  ntx    = 5,                    ! INP Read in coordinates and velocities
+  ntpr   = 500,                  ! OUT print frequencey for energy info to mdout
+  ntc    = 2,                    ! RESTRAINTS SHAKE for TIP3P
+  nscm   = 1000,                 ! MD frequency to remove C.o.M motion
+  dt     = 0.004,                ! MD timestep 
+  nrespa = 1,                    ! MD RESPA time step.  Keep nrespa * dt <= 4
+  nstlim = 20000,                 ! MD Number of time steps
+  tempi  = 310.0,                  ! TEMP initial temperature
+  temp0  = 310.0,                ! TEMP final temperature
+  ntt    = 3,                    ! TEMP Temp control 3 = Langevin, 0 = NVE
+  gamma_ln = 5.0,                ! TEMP collision frequency
+  ntf    = 2,                    ! POTENTIAL omit H-atoms in potential evaluation 
+  ntb    = 1,                    ! POTENTIAL Constant Volume PBC for non-bonded forces
+  cut    = 12.0,                 ! POTENTIAL Non-bonded cutoff
+  fswitch = 10.0,                ! POTENTIAL Switching function start length 
+/
+

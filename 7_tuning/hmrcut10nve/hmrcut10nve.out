@@ -1,0 +1,720 @@
+
+          -------------------------------------------------------
+          Amber 16 PMEMD                              2016
+          -------------------------------------------------------
+
+| PMEMD implementation of SANDER, Release 16
+
+| Run on 04/06/2017 at 20:42:44
+
+|   Executable path: pmemd.cuda
+| Working directory: /home/robert/Research/AADH/MD/7_tuning
+|          Hostname: Unknown
+  [-O]verwriting output
+
+File Assignments:
+|   MDIN: hmrcut10nve.in                                                        
+|  MDOUT: hmrcut10nve.out                                                       
+| INPCRD: ../common/equil6.rst                                                  
+|   PARM: ../common/2agy_final_min_hmr.prmtop                                   
+| RESTRT: restrt                                                                
+|   REFC: refc                                                                  
+|  MDVEL: mdvel                                                                 
+|   MDEN: mden                                                                  
+|  MDCRD: mdcrd                                                                 
+| MDINFO: mdinfo                                                                
+|  MDFRC: mdfrc                                                                 
+
+
+ Here is the input file:
+
+AADH reference trajectory: 20ps MD                                             
+&cntrl                                                                         
+  imin   = 0,                    ! INP Standard MD, no minimization            
+  irest  = 1,                    ! INP Restart simulation                      
+  ntx    = 5,                    ! INP Read in coordinates and velocities      
+  ntpr   = 500,                  ! OUT print frequencey for energy info to mdou
+  ntc    = 2,                    ! RESTRAINTS SHAKE for TIP3P                  
+  nscm   = 1000,                 ! MD frequency to remove C.o.M motion         
+  dt     = 0.004,                ! MD timestep                                 
+  nrespa = 1,                    ! MD RESPA time step.  Keep nrespa * dt <= 4  
+  nstlim = 20000,                 ! MD Number of time steps                    
+!  tempi  = 310.0,                  ! TEMP initial temperature                 
+!  temp0  = 310.0,                ! TEMP final temperature                     
+  ntt    = 0,                    ! TEMP Temp control 3 = Langevin, 0 = NVE     
+!  gamma_ln = 5.0,                ! TEMP collision frequency                   
+  ntf    = 2,                    ! POTENTIAL omit H-atoms in potential evaluati
+  ntb    = 1,                    ! POTENTIAL Constant Volume PBC for non-bonded
+  cut    = 10.0,                 ! POTENTIAL Non-bonded cutoff                 
+  fswitch = 8.0,                ! POTENTIAL Switching function start length    
+/                                                                              
+                                                                               
+
+
+Note: ig = -1. Setting random seed to   487395 based on wallclock time in 
+      microseconds.
+ 
+|--------------------- INFORMATION ----------------------
+| GPU (CUDA) Version of PMEMD in use: NVIDIA GPU IN USE.
+|                    Version 16.0.0
+| 
+|                      02/25/2016
+| 
+| Implementation by:
+|                    Ross C. Walker     (SDSC)
+|                    Scott Le Grand     (nVIDIA)
+| 
+| Precision model in use:
+|      [SPFP] - Single Precision Forces, 64-bit Fixed Point
+|               Accumulation. (Default)
+| 
+|--------------------------------------------------------
+ 
+|----------------- CITATION INFORMATION -----------------
+|
+|    When publishing work that utilized the CUDA version
+|    of AMBER, please cite the following in addition to
+|    the regular AMBER citations:
+|
+|  - Romelia Salomon-Ferrer; Andreas W. Goetz; Duncan
+|    Poole; Scott Le Grand; Ross C. Walker "Routine
+|    microsecond molecular dynamics simulations with
+|    AMBER - Part II: Particle Mesh Ewald", J. Chem.
+|    Theory Comput., 2013, 9 (9), pp3878-3888,
+|    DOI: 10.1021/ct400314y.
+|
+|  - Andreas W. Goetz; Mark J. Williamson; Dong Xu;
+|    Duncan Poole; Scott Le Grand; Ross C. Walker
+|    "Routine microsecond molecular dynamics simulations
+|    with AMBER - Part I: Generalized Born", J. Chem.
+|    Theory Comput., 2012, 8 (5), pp1542-1555.
+|
+|  - Scott Le Grand; Andreas W. Goetz; Ross C. Walker
+|    "SPFP: Speed without compromise - a mixed precision
+|    model for GPU accelerated molecular dynamics
+|    simulations.", Comp. Phys. Comm., 2013, 184
+|    pp374-380, DOI: 10.1016/j.cpc.2012.09.022
+|
+|--------------------------------------------------------
+ 
+|------------------- GPU DEVICE INFO --------------------
+|
+|            CUDA_VISIBLE_DEVICES: not set
+|   CUDA Capable Devices Detected:      1
+|           CUDA Device ID in use:      0
+|                CUDA Device Name: GeForce GTX 980
+|     CUDA Device Global Mem Size:   8112 MB
+| CUDA Device Num Multiprocessors:     16
+|           CUDA Device Core Freq:   1.19 GHz
+|
+|--------------------------------------------------------
+ 
+ 
+| Conditional Compilation Defines Used:
+| PUBFFT
+| BINTRAJ
+| CUDA
+| EMIL
+
+| Largest sphere to fit in unit cell has radius =    44.450
+
+| New format PARM file being parsed.
+| Version =    1.000 Date = 04/06/17 Time = 20:20:39
+| Force field information read from topology file: 
+|              >>>> CHARMM36 All-Hydrogen Parameter File for Proteins <<<<<<<<<<  
+|
+|CHARMM: CHARMM force field in use. 
+
+| Note: 1-4 EEL scale factors are being read from the topology file.
+
+| Note: 1-4 VDW scale factors are being read from the topology file.
+| INFO: Off Diagonal (NBFIX) LJ terms found in prmtop file.
+|       The prmtop file has been modified to support atom
+|       type based pairwise Lennard-Jones terms.
+| Duplicated    0 dihedrals
+
+| Duplicated    0 dihedrals
+
+--------------------------------------------------------------------------------
+   1.  RESOURCE   USE: 
+--------------------------------------------------------------------------------
+
+ getting new box info from bottom of inpcrd
+ NATOM  =  115183 NTYPES =      45 NBONH =  107615 MBONA  =    7567
+ NTHETH =   49571 MTHETA =   10290 NPHIH =   26934 MPHIA  =   18893
+ NHPARM =       0 NPARM  =       0 NNB   =  213960 NRES   =   34667
+ NBONA  =    7567 NTHETA =   10290 NPHIA =   18893 NUMBND =      84
+ NUMANG =     194 NPTRA  =     454 NATYP =       1 NPHB   =       0
+ IFBOX  =       1 NMXRS  =      45 IFCAP =       0 NEXTRA =       0
+ NCOPY  =       0
+
+|CHARMM: Reticulating splines.
+
+| Coordinate Index Table dimensions:    22   18   16
+| Direct force subcell size =     5.6307    5.7305    5.5562
+
+     BOX TYPE: RECTILINEAR
+
+--------------------------------------------------------------------------------
+   2.  CONTROL  DATA  FOR  THE  RUN
+--------------------------------------------------------------------------------
+
+                                                                                
+
+General flags:
+     imin    =       0, nmropt  =       0
+
+Nature and format of input:
+     ntx     =       5, irest   =       1, ntrx    =       1
+
+Nature and format of output:
+     ntxo    =       2, ntpr    =     500, ntrx    =       1, ntwr    =   20000
+     iwrap   =       0, ntwx    =       0, ntwv    =       0, ntwe    =       0
+     ioutfm  =       1, ntwprt  =       0, idecomp =       0, rbornstat=      0
+
+Potential function:
+     ntf     =       2, ntb     =       1, igb     =       0, nsnb    =      25
+     ipol    =       0, gbsa    =       0, iesp    =       0
+     dielc   =   1.00000, cut     =  10.00000, intdiel =   1.00000
+
+Frozen or restrained atoms:
+     ibelly  =       0, ntr     =       0
+
+Molecular dynamics:
+     nstlim  =     20000, nscm    =      1000, nrespa  =         1
+     t       =   0.00000, dt      =   0.00400, vlimit  =  -1.00000
+
+SHAKE:
+     ntc     =       2, jfastw  =       0
+     tol     =   0.00001
+
+| Intermolecular bonds treatment:
+|     no_intermolecular_bonds =       1
+
+| Energy averages sample interval:
+|     ene_avg_sampling =     500
+
+Ewald parameters:
+     verbose =       0, ew_type =       0, nbflag  =       1, use_pme =       1
+     vdwmeth =       0, eedmeth =       1, netfrc  =       1
+     Box X =  123.876   Box Y =  103.149   Box Z =   88.900
+     Alpha =   90.000   Beta  =   90.000   Gamma =   90.000
+     NFFT1 =  128       NFFT2 =  108       NFFT3 =   96
+     Cutoff=   10.000   Tol   =0.100E-04
+     Ewald Coefficient =  0.27511
+     Interpolation order =    4
+
+--------------------------------------------------------------------------------
+   3.  ATOMIC COORDINATES AND VELOCITIES
+--------------------------------------------------------------------------------
+
+                                                                                
+ begin time read from input coords =  1070.000 ps
+
+ 
+ Number of triangulated 3-point waters found:    33521
+
+     Sum of charges from parm topology file =  -0.00000000
+     Forcing neutrality...
+
+| Dynamic Memory, Types Used:
+| Reals             3053572
+| Integers          3841927
+
+| Nonbonded Pairs Initial Allocation:    34839977
+
+| GPU memory information (estimate):
+| KB of GPU memory in use:    343924
+| KB of CPU memory in use:    136024
+
+--------------------------------------------------------------------------------
+   4.  RESULTS
+--------------------------------------------------------------------------------
+
+ ---------------------------------------------------
+ APPROXIMATING switch and d/dx switch using CUBIC SPLINE INTERPOLATION
+ using   5000.0 points per unit in tabled values
+ TESTING RELATIVE ERROR over r ranging from 0.0 to cutoff
+| CHECK switch(x): max rel err =   0.2738E-14   at   2.422500
+| CHECK d/dx switch(x): max rel err =   0.8314E-11   at   2.736960
+ ---------------------------------------------------
+|---------------------------------------------------
+| APPROXIMATING direct energy using CUBIC SPLINE INTERPOLATION
+|  with   50.0 points per unit in tabled values
+| Relative Error Limit not exceeded for r .gt.   2.33
+| APPROXIMATING direct force using CUBIC SPLINE INTERPOLATION
+|  with   50.0 points per unit in tabled values
+| Relative Error Limit not exceeded for r .gt.   2.80
+|---------------------------------------------------
+
+ NSTEP =      500   TIME(PS) =    1072.000  TEMP(K) =   322.87  PRESS =     0.0
+ Etot   =   -272967.0015  EKtot   =     76328.4141  EPtot      =   -349295.4156
+ BOND   =      4025.2464  ANGLE   =      9193.9131  DIHED      =      9891.1467
+ UB     =      1118.0492  IMP     =       642.7110  CMAP       =      -559.1661
+ 1-4 NB =      2614.2074  1-4 EEL =     39162.6291  VDWAALS    =     31218.8915
+ EELEC  =   -446603.0440  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000715     0.00(Removed)
+
+ NSTEP =     1000   TIME(PS) =    1074.000  TEMP(K) =   322.18  PRESS =     0.0
+ Etot   =   -272936.0069  EKtot   =     76166.0469  EPtot      =   -349102.0538
+ BOND   =      3824.1067  ANGLE   =      8920.5088  DIHED      =      9838.0182
+ UB     =      1078.5204  IMP     =       612.1069  CMAP       =      -618.6393
+ 1-4 NB =      2632.6397  1-4 EEL =     39471.6463  VDWAALS    =     31323.0569
+ EELEC  =   -446184.0184  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     1500   TIME(PS) =    1076.000  TEMP(K) =   320.06  PRESS =     0.0
+ Etot   =   -272904.5163  EKtot   =     75665.0781  EPtot      =   -348569.5944
+ BOND   =      3842.9198  ANGLE   =      8732.2168  DIHED      =      9846.9886
+ UB     =      1043.4727  IMP     =       607.4124  CMAP       =      -604.9502
+ 1-4 NB =      2551.6938  1-4 EEL =     39285.7521  VDWAALS    =     30582.6083
+ EELEC  =   -444457.7087  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000003     0.00(Removed)
+
+ NSTEP =     2000   TIME(PS) =    1078.000  TEMP(K) =   321.01  PRESS =     0.0
+ Etot   =   -272944.0360  EKtot   =     75889.0078  EPtot      =   -348833.0438
+ BOND   =      3686.4981  ANGLE   =      8491.1280  DIHED      =      9832.4604
+ UB     =      1034.6903  IMP     =       603.1068  CMAP       =      -553.5597
+ 1-4 NB =      2615.9530  1-4 EEL =     39392.3176  VDWAALS    =     31205.4899
+ EELEC  =   -445141.1282  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     2500   TIME(PS) =    1080.000  TEMP(K) =   320.78  PRESS =     0.0
+ Etot   =   -272919.6356  EKtot   =     75835.1094  EPtot      =   -348754.7450
+ BOND   =      3647.4159  ANGLE   =      8350.2811  DIHED      =      9738.8398
+ UB     =      1004.7222  IMP     =       618.5410  CMAP       =      -564.2137
+ 1-4 NB =      2517.1635  1-4 EEL =     39288.1270  VDWAALS    =     30814.5660
+ EELEC  =   -444170.1876  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000004     0.00(Removed)
+
+ NSTEP =     3000   TIME(PS) =    1082.000  TEMP(K) =   320.81  PRESS =     0.0
+ Etot   =   -272934.7125  EKtot   =     75842.2812  EPtot      =   -348776.9938
+ BOND   =      3526.5350  ANGLE   =      8377.7400  DIHED      =      9747.0851
+ UB     =      1019.0169  IMP     =       592.2310  CMAP       =      -582.8428
+ 1-4 NB =      2525.3082  1-4 EEL =     39428.2351  VDWAALS    =     30526.2884
+ EELEC  =   -443936.5908  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     3500   TIME(PS) =    1084.000  TEMP(K) =   321.13  PRESS =     0.0
+ Etot   =   -272908.0067  EKtot   =     75917.0781  EPtot      =   -348825.0848
+ BOND   =      3491.5336  ANGLE   =      8291.6315  DIHED      =      9860.0805
+ UB     =       986.8642  IMP     =       594.2459  CMAP       =      -585.2813
+ 1-4 NB =      2544.2926  1-4 EEL =     39306.9017  VDWAALS    =     31029.9185
+ EELEC  =   -444345.2720  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000003     0.00(Removed)
+
+ NSTEP =     4000   TIME(PS) =    1086.000  TEMP(K) =   320.80  PRESS =     0.0
+ Etot   =   -272915.0598  EKtot   =     75838.9609  EPtot      =   -348754.0207
+ BOND   =      3603.4202  ANGLE   =      8181.2359  DIHED      =      9798.7846
+ UB     =       954.4866  IMP     =       607.1660  CMAP       =      -569.5683
+ 1-4 NB =      2576.8738  1-4 EEL =     39230.4839  VDWAALS    =     30855.0320
+ EELEC  =   -443991.9353  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     4500   TIME(PS) =    1088.000  TEMP(K) =   320.62  PRESS =     0.0
+ Etot   =   -272916.8818  EKtot   =     75795.9922  EPtot      =   -348712.8740
+ BOND   =      3665.1284  ANGLE   =      8114.0739  DIHED      =      9778.1980
+ UB     =       948.2253  IMP     =       594.3433  CMAP       =      -580.2831
+ 1-4 NB =      2554.4542  1-4 EEL =     39323.4571  VDWAALS    =     30508.9738
+ EELEC  =   -443619.4451  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000004     0.00(Removed)
+
+ NSTEP =     5000   TIME(PS) =    1090.000  TEMP(K) =   320.15  PRESS =     0.0
+ Etot   =   -272902.7793  EKtot   =     75685.1094  EPtot      =   -348587.8887
+ BOND   =      3616.8917  ANGLE   =      8338.1364  DIHED      =      9724.8141
+ UB     =       993.2475  IMP     =       597.8174  CMAP       =      -616.7738
+ 1-4 NB =      2514.4087  1-4 EEL =     39393.0836  VDWAALS    =     31379.9912
+ EELEC  =   -444529.5054  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     5500   TIME(PS) =    1092.000  TEMP(K) =   320.29  PRESS =     0.0
+ Etot   =   -272913.4908  EKtot   =     75718.9219  EPtot      =   -348632.4126
+ BOND   =      3469.0894  ANGLE   =      8047.8818  DIHED      =      9825.4039
+ UB     =       967.0290  IMP     =       602.0441  CMAP       =      -571.4091
+ 1-4 NB =      2576.1412  1-4 EEL =     39328.3164  VDWAALS    =     30747.2377
+ EELEC  =   -443624.1471  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000004     0.00(Removed)
+
+ NSTEP =     6000   TIME(PS) =    1094.000  TEMP(K) =   321.23  PRESS =     0.0
+ Etot   =   -272913.9474  EKtot   =     75941.8203  EPtot      =   -348855.7677
+ BOND   =      3553.0170  ANGLE   =      8091.1484  DIHED      =      9704.7494
+ UB     =       946.4585  IMP     =       576.0788  CMAP       =      -602.3556
+ 1-4 NB =      2534.7378  1-4 EEL =     39272.9027  VDWAALS    =     30781.9982
+ EELEC  =   -443714.5031  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     6500   TIME(PS) =    1096.000  TEMP(K) =   320.23  PRESS =     0.0
+ Etot   =   -272926.4074  EKtot   =     75704.7109  EPtot      =   -348631.1183
+ BOND   =      3443.6660  ANGLE   =      8052.3255  DIHED      =      9714.3994
+ UB     =       956.5233  IMP     =       552.8444  CMAP       =      -516.3712
+ 1-4 NB =      2528.5243  1-4 EEL =     39450.8025  VDWAALS    =     30568.3861
+ EELEC  =   -443382.2185  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000002     0.00(Removed)
+
+ NSTEP =     7000   TIME(PS) =    1098.000  TEMP(K) =   320.05  PRESS =     0.0
+ Etot   =   -272914.5003  EKtot   =     75663.2578  EPtot      =   -348577.7581
+ BOND   =      3477.2674  ANGLE   =      7985.0410  DIHED      =      9754.2961
+ UB     =       966.0529  IMP     =       558.6050  CMAP       =      -558.1636
+ 1-4 NB =      2521.8858  1-4 EEL =     39372.8999  VDWAALS    =     30521.0008
+ EELEC  =   -443176.6433  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     7500   TIME(PS) =    1100.000  TEMP(K) =   320.28  PRESS =     0.0
+ Etot   =   -272926.4666  EKtot   =     75717.4375  EPtot      =   -348643.9041
+ BOND   =      3377.3741  ANGLE   =      8127.9829  DIHED      =      9687.0618
+ UB     =       941.0497  IMP     =       550.7519  CMAP       =      -582.8981
+ 1-4 NB =      2557.8226  1-4 EEL =     39187.8883  VDWAALS    =     30629.5372
+ EELEC  =   -443120.4745  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000005     0.00(Removed)
+
+ NSTEP =     8000   TIME(PS) =    1102.000  TEMP(K) =   319.95  PRESS =     0.0
+ Etot   =   -272909.2930  EKtot   =     75638.8281  EPtot      =   -348548.1211
+ BOND   =      3412.4238  ANGLE   =      7948.2747  DIHED      =      9745.9483
+ UB     =       943.4930  IMP     =       570.9288  CMAP       =      -558.3965
+ 1-4 NB =      2581.9105  1-4 EEL =     39272.1787  VDWAALS    =     30498.7059
+ EELEC  =   -442963.5884  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     8500   TIME(PS) =    1104.000  TEMP(K) =   320.21  PRESS =     0.0
+ Etot   =   -272905.2149  EKtot   =     75698.8125  EPtot      =   -348604.0274
+ BOND   =      3314.4056  ANGLE   =      8014.8439  DIHED      =      9813.2699
+ UB     =       947.2774  IMP     =       559.5677  CMAP       =      -607.4868
+ 1-4 NB =      2589.3562  1-4 EEL =     39378.9352  VDWAALS    =     29897.4941
+ EELEC  =   -442511.6906  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000006     0.00(Removed)
+
+ NSTEP =     9000   TIME(PS) =    1106.000  TEMP(K) =   320.25  PRESS =     0.0
+ Etot   =   -272924.7249  EKtot   =     75708.6094  EPtot      =   -348633.3342
+ BOND   =      3299.5567  ANGLE   =      7959.1431  DIHED      =      9666.7887
+ UB     =       935.3397  IMP     =       572.4757  CMAP       =      -584.7214
+ 1-4 NB =      2526.7218  1-4 EEL =     39493.2248  VDWAALS    =     30647.1402
+ EELEC  =   -443149.0034  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =     9500   TIME(PS) =    1108.000  TEMP(K) =   320.93  PRESS =     0.0
+ Etot   =   -272916.7629  EKtot   =     75869.3203  EPtot      =   -348786.0832
+ BOND   =      3415.7571  ANGLE   =      7932.5330  DIHED      =      9740.0722
+ UB     =       923.8663  IMP     =       565.3730  CMAP       =      -574.4698
+ 1-4 NB =      2552.5545  1-4 EEL =     39273.1058  VDWAALS    =     30578.0328
+ EELEC  =   -443192.9081  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000007     0.00(Removed)
+
+ NSTEP =    10000   TIME(PS) =    1110.000  TEMP(K) =   320.33  PRESS =     0.0
+ Etot   =   -272926.6900  EKtot   =     75728.6562  EPtot      =   -348655.3463
+ BOND   =      3395.3285  ANGLE   =      8042.6662  DIHED      =      9732.2144
+ UB     =       950.2412  IMP     =       574.5512  CMAP       =      -602.6194
+ 1-4 NB =      2534.2133  1-4 EEL =     39287.9774  VDWAALS    =     30635.2394
+ EELEC  =   -443205.1587  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    10500   TIME(PS) =    1112.000  TEMP(K) =   320.96  PRESS =     0.0
+ Etot   =   -272922.6800  EKtot   =     75877.7031  EPtot      =   -348800.3831
+ BOND   =      3358.1702  ANGLE   =      8003.5604  DIHED      =      9706.1435
+ UB     =       937.1546  IMP     =       537.2003  CMAP       =      -578.9507
+ 1-4 NB =      2557.0018  1-4 EEL =     39315.2261  VDWAALS    =     30629.5107
+ EELEC  =   -443265.4001  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000011     0.00(Removed)
+
+ NSTEP =    11000   TIME(PS) =    1114.000  TEMP(K) =   319.47  PRESS =     0.0
+ Etot   =   -272927.1645  EKtot   =     75525.5234  EPtot      =   -348452.6879
+ BOND   =      3315.9610  ANGLE   =      7947.8974  DIHED      =      9744.3641
+ UB     =       942.8981  IMP     =       571.9103  CMAP       =      -610.2330
+ 1-4 NB =      2521.8086  1-4 EEL =     39163.8712  VDWAALS    =     30208.4786
+ EELEC  =   -442259.6441  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    11500   TIME(PS) =    1116.000  TEMP(K) =   321.67  PRESS =     0.0
+ Etot   =   -272930.7698  EKtot   =     76044.9922  EPtot      =   -348975.7620
+ BOND   =      3435.6603  ANGLE   =      8039.2641  DIHED      =      9707.7849
+ UB     =       945.2104  IMP     =       530.2808  CMAP       =      -630.8096
+ 1-4 NB =      2475.5726  1-4 EEL =     39163.4693  VDWAALS    =     29822.3302
+ EELEC  =   -442464.5250  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000004     0.00(Removed)
+
+ NSTEP =    12000   TIME(PS) =    1118.000  TEMP(K) =   320.38  PRESS =     0.0
+ Etot   =   -272928.3055  EKtot   =     75739.3672  EPtot      =   -348667.6727
+ BOND   =      3335.4649  ANGLE   =      7983.3141  DIHED      =      9682.4368
+ UB     =       960.6131  IMP     =       537.4915  CMAP       =      -608.7818
+ 1-4 NB =      2629.1290  1-4 EEL =     39584.4464  VDWAALS    =     30408.1827
+ EELEC  =   -443179.9694  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    12500   TIME(PS) =    1120.000  TEMP(K) =   319.43  PRESS =     0.0
+ Etot   =   -272917.7235  EKtot   =     75516.1875  EPtot      =   -348433.9110
+ BOND   =      3457.4793  ANGLE   =      7930.8211  DIHED      =      9674.3925
+ UB     =       951.2447  IMP     =       570.4645  CMAP       =      -612.2039
+ 1-4 NB =      2565.7472  1-4 EEL =     39469.9849  VDWAALS    =     31037.0473
+ EELEC  =   -443478.8885  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000002     0.00(Removed)
+
+ NSTEP =    13000   TIME(PS) =    1122.000  TEMP(K) =   320.67  PRESS =     0.0
+ Etot   =   -272949.3264  EKtot   =     75809.1250  EPtot      =   -348758.4514
+ BOND   =      3412.9138  ANGLE   =      8058.8557  DIHED      =      9670.5897
+ UB     =       944.5295  IMP     =       540.6190  CMAP       =      -600.5531
+ 1-4 NB =      2493.6477  1-4 EEL =     39232.1768  VDWAALS    =     30633.9968
+ EELEC  =   -443145.2272  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    13500   TIME(PS) =    1124.000  TEMP(K) =   319.90  PRESS =     0.0
+ Etot   =   -272936.7715  EKtot   =     75625.5859  EPtot      =   -348562.3574
+ BOND   =      3367.0649  ANGLE   =      8006.6524  DIHED      =      9727.3303
+ UB     =       940.4454  IMP     =       570.7936  CMAP       =      -577.7912
+ 1-4 NB =      2555.8878  1-4 EEL =     39290.7000  VDWAALS    =     30153.9931
+ EELEC  =   -442597.4336  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000005     0.00(Removed)
+
+ NSTEP =    14000   TIME(PS) =    1126.000  TEMP(K) =   321.67  PRESS =     0.0
+ Etot   =   -272925.8905  EKtot   =     76044.8516  EPtot      =   -348970.7421
+ BOND   =      3451.0589  ANGLE   =      7998.5989  DIHED      =      9628.0578
+ UB     =       951.3493  IMP     =       516.3602  CMAP       =      -595.4195
+ 1-4 NB =      2520.2551  1-4 EEL =     39361.6989  VDWAALS    =     30498.4950
+ EELEC  =   -443301.1967  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    14500   TIME(PS) =    1128.000  TEMP(K) =   319.52  PRESS =     0.0
+ Etot   =   -272919.8440  EKtot   =     75537.4062  EPtot      =   -348457.2503
+ BOND   =      3469.7749  ANGLE   =      7979.6003  DIHED      =      9708.0748
+ UB     =       938.2168  IMP     =       571.6670  CMAP       =      -584.3810
+ 1-4 NB =      2535.3378  1-4 EEL =     39279.1312  VDWAALS    =     30133.4485
+ EELEC  =   -442488.1206  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000003     0.00(Removed)
+
+ NSTEP =    15000   TIME(PS) =    1130.000  TEMP(K) =   319.64  PRESS =     0.0
+ Etot   =   -272938.8646  EKtot   =     75565.0234  EPtot      =   -348503.8880
+ BOND   =      3390.8824  ANGLE   =      8037.8779  DIHED      =      9703.5089
+ UB     =       946.6753  IMP     =       539.2545  CMAP       =      -576.6283
+ 1-4 NB =      2540.7932  1-4 EEL =     39288.4082  VDWAALS    =     30715.2763
+ EELEC  =   -443089.9364  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    15500   TIME(PS) =    1132.000  TEMP(K) =   319.37  PRESS =     0.0
+ Etot   =   -272933.9333  EKtot   =     75500.2422  EPtot      =   -348434.1755
+ BOND   =      3326.9945  ANGLE   =      8020.1305  DIHED      =      9677.9968
+ UB     =       929.8350  IMP     =       576.6809  CMAP       =      -594.6249
+ 1-4 NB =      2560.1104  1-4 EEL =     39388.8875  VDWAALS    =     30480.5675
+ EELEC  =   -442800.7536  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000006     0.00(Removed)
+
+ NSTEP =    16000   TIME(PS) =    1134.000  TEMP(K) =   321.50  PRESS =     0.0
+ Etot   =   -272964.1001  EKtot   =     76005.4609  EPtot      =   -348969.5610
+ BOND   =      3312.4694  ANGLE   =      7950.5631  DIHED      =      9798.3909
+ UB     =       935.8056  IMP     =       544.0982  CMAP       =      -612.1475
+ 1-4 NB =      2537.2356  1-4 EEL =     39312.3585  VDWAALS    =     30048.1876
+ EELEC  =   -442796.5224  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    16500   TIME(PS) =    1136.000  TEMP(K) =   320.13  PRESS =     0.0
+ Etot   =   -272942.3975  EKtot   =     75681.6484  EPtot      =   -348624.0459
+ BOND   =      3437.2765  ANGLE   =      7830.4283  DIHED      =      9786.9281
+ UB     =       935.9141  IMP     =       539.6035  CMAP       =      -607.7731
+ 1-4 NB =      2528.0925  1-4 EEL =     39263.3609  VDWAALS    =     30576.8777
+ EELEC  =   -442914.7545  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000003     0.00(Removed)
+
+ NSTEP =    17000   TIME(PS) =    1138.000  TEMP(K) =   321.15  PRESS =     0.0
+ Etot   =   -272961.8787  EKtot   =     75922.0156  EPtot      =   -348883.8943
+ BOND   =      3400.7306  ANGLE   =      7851.2217  DIHED      =      9692.8649
+ UB     =       924.3470  IMP     =       532.2070  CMAP       =      -557.1161
+ 1-4 NB =      2523.8463  1-4 EEL =     39259.2087  VDWAALS    =     30587.0586
+ EELEC  =   -443098.2630  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    17500   TIME(PS) =    1140.000  TEMP(K) =   320.05  PRESS =     0.0
+ Etot   =   -272945.1709  EKtot   =     75662.2344  EPtot      =   -348607.4053
+ BOND   =      3406.4183  ANGLE   =      7942.4607  DIHED      =      9768.9448
+ UB     =       903.7617  IMP     =       504.6415  CMAP       =      -547.6695
+ 1-4 NB =      2581.2384  1-4 EEL =     39342.0797  VDWAALS    =     30593.1815
+ EELEC  =   -443102.4623  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000003     0.00(Removed)
+
+ NSTEP =    18000   TIME(PS) =    1142.000  TEMP(K) =   320.67  PRESS =     0.0
+ Etot   =   -272989.3218  EKtot   =     75807.6484  EPtot      =   -348796.9702
+ BOND   =      3254.8758  ANGLE   =      7858.1617  DIHED      =      9671.8115
+ UB     =       925.2148  IMP     =       603.2817  CMAP       =      -572.8874
+ 1-4 NB =      2570.4991  1-4 EEL =     39393.9141  VDWAALS    =     30334.0886
+ EELEC  =   -442835.9301  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    18500   TIME(PS) =    1144.000  TEMP(K) =   319.18  PRESS =     0.0
+ Etot   =   -272936.5695  EKtot   =     75457.3906  EPtot      =   -348393.9601
+ BOND   =      3366.6173  ANGLE   =      7990.6002  DIHED      =      9697.3221
+ UB     =       921.2617  IMP     =       531.3982  CMAP       =      -580.8264
+ 1-4 NB =      2547.1537  1-4 EEL =     39412.0176  VDWAALS    =     30635.2438
+ EELEC  =   -442914.7483  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000004     0.00(Removed)
+
+ NSTEP =    19000   TIME(PS) =    1146.000  TEMP(K) =   320.05  PRESS =     0.0
+ Etot   =   -272972.5655  EKtot   =     75661.6484  EPtot      =   -348634.2139
+ BOND   =      3212.8051  ANGLE   =      7864.1122  DIHED      =      9630.1613
+ UB     =       939.5276  IMP     =       573.6073  CMAP       =      -576.9054
+ 1-4 NB =      2531.0134  1-4 EEL =     39469.8080  VDWAALS    =     30353.4458
+ EELEC  =   -442631.7892  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+ NSTEP =    19500   TIME(PS) =    1148.000  TEMP(K) =   319.31  PRESS =     0.0
+ Etot   =   -272959.4300  EKtot   =     75487.2500  EPtot      =   -348446.6800
+ BOND   =      3359.8582  ANGLE   =      7838.4179  DIHED      =      9801.4636
+ UB     =       923.1215  IMP     =       561.2117  CMAP       =      -573.3659
+ 1-4 NB =      2565.9453  1-4 EEL =     39538.5677  VDWAALS    =     30293.9739
+ EELEC  =   -442755.8739  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+check COM velocity, temp:        0.000002     0.00(Removed)
+
+ NSTEP =    20000   TIME(PS) =    1150.000  TEMP(K) =   319.48  PRESS =     0.0
+ Etot   =   -272976.1645  EKtot   =     75527.0000  EPtot      =   -348503.1645
+ BOND   =      3362.1113  ANGLE   =      7955.2526  DIHED      =      9664.4359
+ UB     =       923.6901  IMP     =       552.7190  CMAP       =      -574.0774
+ 1-4 NB =      2584.4877  1-4 EEL =     39315.5076  VDWAALS    =     30506.7251
+ EELEC  =   -442794.0163  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+      A V E R A G E S   O V E R      40 S T E P S
+
+
+ NSTEP =    20000   TIME(PS) =    1150.000  TEMP(K) =   320.46  PRESS =     0.0
+ Etot   =   -272932.6252  EKtot   =     75758.7939  EPtot      =   -348691.4191
+ BOND   =      3463.0542  ANGLE   =      8107.0124  DIHED      =      9739.5906
+ UB     =       959.4861  IMP     =       568.9598  CMAP       =      -584.1829
+ 1-4 NB =      2551.8917  1-4 EEL =     39336.1422  VDWAALS    =     30589.9924
+ EELEC  =   -443423.3657  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+ ------------------------------------------------------------------------------
+
+
+      R M S  F L U C T U A T I O N S
+
+
+ NSTEP =    20000   TIME(PS) =    1150.000  TEMP(K) =     0.80  PRESS =     0.0
+ Etot   =        20.9535  EKtot   =       190.2459  EPtot      =       193.6441
+ BOND   =       165.0614  ANGLE   =       286.4473  DIHED      =        64.2847
+ UB     =        43.8469  IMP     =        30.1845  CMAP       =        22.8991
+ 1-4 NB =        34.0622  1-4 EEL =        99.9146  VDWAALS    =       344.2412
+ EELEC  =       921.2425  EHBOND  =         0.0000  RESTRAINT  =         0.0000
+|E(PBS) =        71.1704
+ ------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+   5.  TIMINGS
+--------------------------------------------------------------------------------
+
+|  NonSetup CPU Time in Major Routines:
+|
+|     Routine           Sec        %
+|     ------------------------------
+|     Nonbond           7.18    4.37
+|     Bond              0.00    0.00
+|     Angle             0.00    0.00
+|     Dihedral          0.00    0.00
+|     Shake             0.13    0.08
+|     RunMD           156.84   95.54
+|     Other             0.02    0.01
+|     ------------------------------
+|     Total           164.16
+
+|  PME Nonbond Pairlist CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     Set Up Cit           0.00    0.00
+|     Build List           0.00    0.00
+|     ---------------------------------
+|     Total                0.00    0.00
+
+|  PME Direct Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     NonBonded Calc       0.00    0.00
+|     Exclude Masked       0.00    0.00
+|     Other                0.01    0.00
+|     ---------------------------------
+|     Total                0.01    0.00
+
+|  PME Reciprocal Force CPU Time:
+|
+|     Routine              Sec        %
+|     ---------------------------------
+|     1D bspline           0.00    0.00
+|     Grid Charges         0.00    0.00
+|     Scalar Sum           0.00    0.00
+|     Gradient Sum         0.00    0.00
+|     FFT                  0.00    0.00
+|     ---------------------------------
+|     Total                0.00    0.00
+
+|  Final Performance Info:
+|     -----------------------------------------------------
+|     Average timings for last    4500 steps:
+|     Elapsed(s) =      37.51 Per Step(ms) =       8.34
+|         ns/day =      41.46   seconds/ns =    2083.86
+|
+|     Average timings for all steps:
+|     Elapsed(s) =     164.15 Per Step(ms) =       8.21
+|         ns/day =      42.11   seconds/ns =    2051.85
+|     -----------------------------------------------------
+
+|  Setup CPU time:            1.18 seconds
+|  NonSetup CPU time:       164.16 seconds
+|  Total CPU time:          165.34 seconds     0.05 hours
+
+|  Setup wall time:           2    seconds
+|  NonSetup wall time:      164    seconds
+|  Total wall time:         166    seconds     0.05 hours
